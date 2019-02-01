@@ -186,17 +186,21 @@ namespace BeanTraderServer
             Log.Information("User {UserId}'s name set to {UserName}", user.Id, name);
         }
 
-        public string GetTraderName(Guid traderId)
+        public Dictionary<Guid, string> GetTraderNames(IEnumerable<Guid> traderIds)
         {
             var currentUser = GetCurrentTraderInfo();
-            if (Traders.TryGetValue(traderId, out Trader trader))
+            var ret = new Dictionary<Guid, string>();
+
+            foreach (var traderId in traderIds)
             {
-                Log.Information("Retrieved user {UserId}'s name ({UserName}) for user {UserId}", traderId, trader.Name, currentUser.Id);
-                return trader.Name;
+                if (Traders.TryGetValue(traderId, out Trader trader))
+                {
+                    ret.Add(traderId, trader.Name);
+                }
             }
 
-            Log.Information("Could not retrieve user {UserId}'s name for user {UserId} because user does not exist", traderId, currentUser.Id);
-            return null;
+            Log.Information("Retrieved {count} trader names for user {UserId}", ret.Count, currentUser.Id);
+            return ret;
         }
 
         private Guid GetUserIdForContext(OperationContext context)

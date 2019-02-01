@@ -18,7 +18,7 @@ namespace BeanTrader
         void SetTraderName(string name);
 
         [OperationContract]
-        string GetTraderName(Guid traderId);
+        Dictionary<Guid, string> GetTraderNames(IEnumerable<Guid> traderId);
 
         [OperationContract]
         bool AcceptTrade(Guid offerId);
