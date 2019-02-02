@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:BeanTraderClient"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="DefaultPageStyle" TargetType="{x:Type Page}">
+            <Setter Property="FontFamily" Value="Consolas" />
+        </Style>
+
+        <Color x:Key="ActiveBackgroundColor">#E8E4DB</Color>
+        <Color x:Key="InactiveBackgroundColor">#99897A</Color>
+
+        <SolidColorBrush x:Key="ActiveBackground" Color="{StaticResource ActiveBackgroundColor}" />
+        <SolidColorBrush x:Key="InactiveBackground" Color="{StaticResource InactiveBackgroundColor}" />
     </Application.Resources>
 </Application>

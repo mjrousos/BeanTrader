@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,19 +17,23 @@ using System.Windows.Shapes;
 namespace BeanTraderClient
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TradingPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TradingPage : Page
     {
-        // TODO : Might be nice to get these from DI. For now, they can just be statics
-        public static BeanTraderService BeanTrader { get; set; }
-        public static BeanTraderCallback BeanTraderCallbackHandler { get; set; } = new BeanTraderCallback();
-
-        public MainWindow()
+        public TradingPage()
         {
             InitializeComponent();
+        }
 
-            MainFrame.Navigate(new WelcomePage());
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            MainWindow.BeanTrader.StopListening();
         }
     }
 }
