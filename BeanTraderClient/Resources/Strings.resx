@@ -123,11 +123,20 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Bean Trader</value>
   </data>
+  <data name="DefaultGreeting" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="Greating" xml:space="preserve">
+    <value>Welcome, {0}</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Sign out</value>
+  </data>
+  <data name="NewTradeOffer" xml:space="preserve">
+    <value>New trade</value>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Name</value>

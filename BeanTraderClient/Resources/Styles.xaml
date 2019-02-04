@@ -8,7 +8,9 @@
     <!-- https://mahapps.com/guides/styles.html -->
     <Color x:Key="ActiveBackgroundColor">#E8E4DB</Color>
     <Color x:Key="InactiveBackgroundColor">#99897A</Color>
+    <Color x:Key="OutlineColor">#685d53</Color>
 
     <SolidColorBrush x:Key="ActiveBackground" Color="{StaticResource ActiveBackgroundColor}" />
     <SolidColorBrush x:Key="InactiveBackground" Color="{StaticResource InactiveBackgroundColor}" />
+    <SolidColorBrush x:Key="Border" Color="{StaticResource OutlineColor}" />
 </ResourceDictionary>

@@ -79,6 +79,24 @@ namespace BeanTraderClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        public static string DefaultGreeting {
+            get {
+                return ResourceManager.GetString("DefaultGreeting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome, {0}.
+        /// </summary>
+        public static string Greating {
+            get {
+                return ResourceManager.GetString("Greating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string Login {
@@ -93,6 +111,15 @@ namespace BeanTraderClient.Resources {
         public static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New trade.
+        /// </summary>
+        public static string NewTradeOffer {
+            get {
+                return ResourceManager.GetString("NewTradeOffer", resourceCulture);
             }
         }
         
