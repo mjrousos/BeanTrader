@@ -17,8 +17,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{StaticResource InactiveBackground}">
+            <Image Source="{StaticResource RedBean}" Width="100" DockPanel.Dock="Left" />
+            <Image Source="{StaticResource BlueBean}" Width="100" DockPanel.Dock="Right" />
             <Viewbox>
-                <TextBlock Text="{x:Static resources:Strings.ApplicationTitle}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,5"/>
+                <TextBlock Text="{x:Static resources:Strings.ApplicationTitle}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>
         </DockPanel>
         <DockPanel Grid.Row="1" Background="{StaticResource ActiveBackground}">
@@ -32,7 +34,11 @@
             </StackPanel>
         </DockPanel>
         <DockPanel Grid.Row="2" Background="{StaticResource InactiveBackground}">
-            <TextBlock Text="{x:Static resources:Strings.ApplicationSubtitle}" Margin="10px" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Image Source="{StaticResource GreenBean}" Width="30" DockPanel.Dock="Left" />
+                <TextBlock Text="{x:Static resources:Strings.ApplicationSubtitle}" Margin="0, 10" />
+                <Image Source="{StaticResource YellowBean}" Width="30" DockPanel.Dock="Left" />
+            </StackPanel>
         </DockPanel>
     </Grid>
 </Page>
