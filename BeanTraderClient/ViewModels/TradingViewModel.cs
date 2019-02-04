@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeanTraderClient.ViewModels
 {
@@ -14,16 +12,46 @@ namespace BeanTraderClient.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Trader trader;
+        private IList<TradeOffer> tradeOffers;
 
         public Trader CurrentTrader
         {
-            get { return trader; }
+            get => trader;
             set
             {
                 trader = value;
                 OnPropertyChanged(nameof(UserName));
                 OnPropertyChanged(nameof(Inventory));
                 OnPropertyChanged(nameof(WelcomeMessage));
+            }
+        }
+
+        public IList<TradeOffer> TradeOffers
+        {
+            get => tradeOffers;
+            set
+            {
+                tradeOffers = value;
+                OnPropertyChanged(nameof(TradeOffers));
+            }
+        }
+
+        public void RemoveTraderOffer(Guid offerId)
+        {
+            var offer = tradeOffers.SingleOrDefault(o => o.Id == offerId);
+            if (offer != null)
+            {
+                tradeOffers.Remove(offer);
+                OnPropertyChanged(nameof(TradeOffers));
+            }
+        }
+
+        public void AddTradeOffer(TradeOffer offer)
+        {
+            if (!tradeOffers.Any(o => o.Id == offer.Id))
+            {
+                tradeOffers.Add(offer);
+                OnPropertyChanged(nameof(TradeOffers));
             }
         }
 
