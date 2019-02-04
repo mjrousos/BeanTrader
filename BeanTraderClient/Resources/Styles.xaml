@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="DefaultPageStyle" TargetType="{x:Type Page}">
+        <Setter Property="FontFamily" Value="Consolas" />
+    </Style>
+
+    <!-- TODO : Extract colors into 'themes' managed by MahApps' ThemeManager -->
+    <!-- https://mahapps.com/guides/styles.html -->
+    <Color x:Key="ActiveBackgroundColor">#E8E4DB</Color>
+    <Color x:Key="InactiveBackgroundColor">#99897A</Color>
+
+    <SolidColorBrush x:Key="ActiveBackground" Color="{StaticResource ActiveBackgroundColor}" />
+    <SolidColorBrush x:Key="InactiveBackground" Color="{StaticResource InactiveBackgroundColor}" />
+</ResourceDictionary>
