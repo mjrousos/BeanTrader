@@ -19,21 +19,21 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{StaticResource InactiveBackground}">
             <Viewbox Margin="50 20">
-                <TextBlock Text="{x:Static resources:Strings.ApplicationTitle}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static resources:StringResources.ApplicationTitle}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>
         </DockPanel>
         <DockPanel Grid.Row="1" Background="{StaticResource ActiveBackground}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label Margin="5px" Content="{x:Static resources:Strings.UsernamePrompt}" />
+                <Label Margin="5px" Content="{x:Static resources:StringResources.UsernamePrompt}" />
                 <StackPanel Margin="5px" Orientation="Horizontal" Width="Auto">
-                    <Label Content="{x:Static resources:Strings.UsernameLabel}" />
+                    <Label Content="{x:Static resources:StringResources.UsernameLabel}" />
                     <TextBox Name="NameTextBox" Width="200 px" VerticalContentAlignment="Center" />
                 </StackPanel>
-                <Button x:Name="StartButton" Margin="5px" Content="{x:Static resources:Strings.Login}" MaxWidth="100px" Height="25px" Width="Auto" IsDefault="True" Click="StartButton_Click" />
+                <Button x:Name="StartButton" Margin="5px" Content="{x:Static resources:StringResources.Login}" MaxWidth="100px" Height="25px" Width="Auto" IsDefault="True" Click="StartButton_Click" />
             </StackPanel>
         </DockPanel>
         <DockPanel Grid.Row="2" Background="{StaticResource InactiveBackground}">
-            <TextBlock Text="{x:Static resources:Strings.ApplicationSubtitle}" Margin="0, 10" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+            <TextBlock Text="{x:Static resources:StringResources.ApplicationSubtitle}" Margin="0, 10" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
         </DockPanel>
     </Grid>
 </Page>

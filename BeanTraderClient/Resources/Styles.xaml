@@ -4,6 +4,10 @@
         <Setter Property="FontFamily" Value="Consolas" />
     </Style>
 
+    <Style TargetType="Button">
+        <Setter Property="Padding" Value="5 3" />
+    </Style>
+    
     <!-- TODO : Extract colors into 'themes' managed by MahApps' ThemeManager -->
     <!-- https://mahapps.com/guides/styles.html -->
     <Color x:Key="ActiveBackgroundColor">#E8E4DB</Color>

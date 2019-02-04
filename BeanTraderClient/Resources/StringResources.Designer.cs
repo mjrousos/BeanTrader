@@ -22,14 +22,14 @@ namespace BeanTraderClient.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Strings {
+    public class StringResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings() {
+        internal StringResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace BeanTraderClient.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BeanTraderClient.Resources.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BeanTraderClient.Resources.StringResources", typeof(StringResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -79,7 +79,7 @@ namespace BeanTraderClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome.
+        ///   Looks up a localized string similar to Signing in....
         /// </summary>
         public static string DefaultGreeting {
             get {
@@ -90,9 +90,9 @@ namespace BeanTraderClient.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Welcome, {0}.
         /// </summary>
-        public static string Greating {
+        public static string Greeting {
             get {
-                return ResourceManager.GetString("Greating", resourceCulture);
+                return ResourceManager.GetString("Greeting", resourceCulture);
             }
         }
         

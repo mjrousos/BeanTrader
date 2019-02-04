@@ -5,10 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:resources="clr-namespace:BeanTraderClient.Resources"
       xmlns:local="clr-namespace:BeanTraderClient"
+      xmlns:localDesign="clr-namespace:BeanTraderClient.DesignTimeData"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      d:DataContext="{x:Static localDesign:DesignTimeContexts.DesignTimeTradingViewModel}"
       Style="{StaticResource DefaultPageStyle}"
       Title="TradingPage" 
+      Loaded="Page_Loaded"
       Unloaded="Page_Unloaded">
 
     <Grid>
@@ -18,8 +21,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{StaticResource InactiveBackground}">
-            <Button Name="LogoutButton" Content="{x:Static resources:Strings.Logout}" Click="LogoutButton_Click" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
-            <Label Name="UsernameLabel" Content="Welcome" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
+            <Button Name="LogoutButton" Content="{x:Static resources:StringResources.Logout}" Click="LogoutButton_Click" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
+            <Label Name="UsernameLabel" Content="{Binding Path=WelcomeMessage, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
         </DockPanel>
         <DockPanel Grid.Row="1" Background="{StaticResource InactiveBackground}">
             <ListView Grid.Row="1" Margin="10, 5" Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="3">
@@ -31,21 +34,21 @@
                 <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" >
                     <Image Source="{StaticResource RedBean}" Width="40" />
                 </Border>
-                <Label Name="RedBeanCount" Content="0" FontSize="28" />
+                <Label Name="RedBeanCount" Content="{Binding Inventory[0]}" FontSize="28" />
                 <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="10,0,0,0" >
                     <Image Source="{StaticResource BlueBean}" Width="40" />
                 </Border>
-                <Label Name="BlueBeanCount" Content="0" FontSize="28" />
+                <Label Name="BlueBeanCount" Content="{Binding Inventory[1]}" FontSize="28" />
                 <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="10,0,0,0" >
                     <Image Source="{StaticResource GreenBean}" Width="40" />
                 </Border>
-                <Label Name="GreenBeanCount" Content="0" FontSize="28" />
+                <Label Name="GreenBeanCount" Content="{Binding Inventory[2]}" FontSize="28" />
                 <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="10,0,0,0" >
                     <Image Source="{StaticResource YellowBean}" Width="40" />
                 </Border>
-                <Label Name="YellowBeanCount" Content="0" FontSize="28" />
+                <Label Name="YellowBeanCount" Content="{Binding Inventory[3]}" FontSize="28" />
             </StackPanel>
-            <Button Name="NewTradeButton" Content="{x:Static resources:Strings.NewTradeOffer}" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
+            <Button Name="NewTradeButton" Content="{x:Static resources:StringResources.NewTradeOffer}" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
         </DockPanel>
     </Grid>
 </Page>

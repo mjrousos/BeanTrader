@@ -124,9 +124,9 @@
     <value>Bean Trader</value>
   </data>
   <data name="DefaultGreeting" xml:space="preserve">
-    <value>Welcome</value>
+    <value>Signing in...</value>
   </data>
-  <data name="Greating" xml:space="preserve">
+  <data name="Greeting" xml:space="preserve">
     <value>Welcome, {0}</value>
   </data>
   <data name="Login" xml:space="preserve">
