@@ -58,7 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\TradeOfferControl.xaml.cs">
+      <DependentUpon>TradeOfferControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\UIntToVisibleOnNonZeroConverter.cs" />
     <Compile Include="DesignTimeData\DesignTimeContexts.cs" />
+    <Compile Include="Models\BeanDictionary.cs" />
     <Compile Include="Resources\StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -71,6 +76,10 @@
     <Compile Include="WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\TradeOfferControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -131,5 +140,6 @@
     <Resource Include="Resources\Images\RedBean.png" />
     <Resource Include="Resources\Images\YellowBean.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

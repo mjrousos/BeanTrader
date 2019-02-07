@@ -19,10 +19,13 @@ namespace BeanTraderClient.ViewModels
             get => trader;
             set
             {
-                trader = value;
-                OnPropertyChanged(nameof(UserName));
-                OnPropertyChanged(nameof(Inventory));
-                OnPropertyChanged(nameof(WelcomeMessage));
+                if (trader != value)
+                {
+                    trader = value;
+                    OnPropertyChanged(nameof(UserName));
+                    OnPropertyChanged(nameof(Inventory));
+                    OnPropertyChanged(nameof(WelcomeMessage));
+                }
             }
         }
 

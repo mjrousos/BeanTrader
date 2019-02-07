@@ -44,7 +44,8 @@ namespace BeanTraderClient.DesignTimeData
                         {
                             { Beans.Red, 10 },
                             { Beans.Yellow, 1 },
-                            { Beans.Blue, 5 }
+                            { Beans.Blue, 5 },
+                            { Beans.Green, 10 }
                         }
                     }
                 }

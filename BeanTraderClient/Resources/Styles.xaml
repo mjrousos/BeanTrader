@@ -6,15 +6,34 @@
 
     <Style TargetType="Button">
         <Setter Property="Padding" Value="5 3" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="16" />
     </Style>
-    
+
+    <Style TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style TargetType="TextBox">
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
     <!-- TODO : Extract colors into 'themes' managed by MahApps' ThemeManager -->
     <!-- https://mahapps.com/guides/styles.html -->
     <Color x:Key="ActiveBackgroundColor">#E8E4DB</Color>
     <Color x:Key="InactiveBackgroundColor">#99897A</Color>
     <Color x:Key="OutlineColor">#685d53</Color>
+    <Color x:Key="RedBean">#672827</Color>
+    <Color x:Key="BlueBean">#10388D</Color>
+    <Color x:Key="GreenBean">#2D6A3F</Color>
+    <Color x:Key="YellowBean">#8D864A</Color>
 
     <SolidColorBrush x:Key="ActiveBackground" Color="{StaticResource ActiveBackgroundColor}" />
     <SolidColorBrush x:Key="InactiveBackground" Color="{StaticResource InactiveBackgroundColor}" />
     <SolidColorBrush x:Key="Border" Color="{StaticResource OutlineColor}" />
+    <SolidColorBrush x:Key="RedBeanBrush" Color="{StaticResource RedBean}" />
+    <SolidColorBrush x:Key="BlueBeanBrush" Color="{StaticResource BlueBean}" />
+    <SolidColorBrush x:Key="GreenBeanBrush" Color="{StaticResource GreenBean}" />
+    <SolidColorBrush x:Key="YellowBeanBrush" Color="{StaticResource YellowBean}" />
 </ResourceDictionary>
