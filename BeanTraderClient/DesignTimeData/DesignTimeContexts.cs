@@ -2,6 +2,7 @@
 using BeanTraderClient.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace BeanTraderClient.DesignTimeData
 {
@@ -48,7 +49,9 @@ namespace BeanTraderClient.DesignTimeData
                             { Beans.Green, 10 }
                         }
                     }
-                }
+                },
+                StatusText = "Test message",
+                StatusBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0))
             };
     }
 }

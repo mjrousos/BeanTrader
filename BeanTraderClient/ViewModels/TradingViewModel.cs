@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -17,12 +18,16 @@ namespace BeanTraderClient.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Trader trader;
+        private string statusText;
+        private Brush statusBrush;
         private IList<TradeOffer> tradeOffers;
-        private IDialogCoordinator dialogCoordinator;
+        private readonly IDialogCoordinator dialogCoordinator;
+        private readonly Timer statusClearTimer;
 
         public TradingViewModel(IDialogCoordinator dialogCoordinator)
         {
             this.dialogCoordinator = dialogCoordinator;
+            statusClearTimer = new Timer(ClearStatus);
         }
 
         public Trader CurrentTrader
@@ -36,6 +41,32 @@ namespace BeanTraderClient.ViewModels
                     OnPropertyChanged(nameof(UserName));
                     OnPropertyChanged(nameof(Inventory));
                     OnPropertyChanged(nameof(WelcomeMessage));
+                }
+            }
+        }
+
+        public string StatusText
+        {
+            get => statusText;
+            set
+            {
+                if (statusText != value)
+                {
+                    statusText = value;
+                    OnPropertyChanged(nameof(StatusText));
+                }
+            }
+        }
+
+        public Brush StatusBrush
+        {
+            get => statusBrush;
+            set
+            {
+                if (statusBrush != value)
+                {
+                    statusBrush = value;
+                    OnPropertyChanged(nameof(StatusBrush));
                 }
             }
         }
@@ -100,5 +131,24 @@ namespace BeanTraderClient.ViewModels
 
             await dialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog);
         }
+        private void SetStatus(string message) => SetStatus(message, Application.Current.FindResource("IdealForegroundColorBrush") as Brush);
+
+        private void SetStatus(string message, Brush brush)
+        {
+            StatusText = message;
+            StatusBrush = brush;
+            ResetStatusClearTimer();
+        }
+
+        private void ResetStatusClearTimer(int dueTime = 5000)
+        {
+            statusClearTimer.Change(dueTime, Timeout.Infinite);
+        }
+
+        private void ClearStatus(object _)
+        {
+            StatusText = string.Empty;
+        }
+
     }
 }

@@ -29,12 +29,14 @@
         <Setter Property="FontSize" Value="16" />
     </Style>
 
-    <!-- Colors and brushes for bean text -->
+    <!-- Colors and brushes -->
+    <Color x:Key="ErrorColor">#772827</Color>
     <Color x:Key="RedBean">#672827</Color>
     <Color x:Key="BlueBean">#10388D</Color>
     <Color x:Key="GreenBean">#2D6A3F</Color>
     <Color x:Key="YellowBean">#8D864A</Color>
 
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}" />
     <SolidColorBrush x:Key="RedBeanBrush" Color="{StaticResource RedBean}" />
     <SolidColorBrush x:Key="BlueBeanBrush" Color="{StaticResource BlueBean}" />
     <SolidColorBrush x:Key="GreenBeanBrush" Color="{StaticResource GreenBean}" />
