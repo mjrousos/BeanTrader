@@ -95,7 +95,7 @@ namespace BeanTraderServer
             // Alert traders that the trade has been accepted and is no longer available
             foreach (var callback in Callbacks.Values)
             {
-                callback?.TradeAccepted(offerId, buyer.Id, buyer.Name);
+                callback?.TradeAccepted(tradeOffer, buyer.Id);
                 callback?.RemoveTradeOffer(offerId);
             }
 

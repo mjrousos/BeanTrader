@@ -13,6 +13,6 @@ namespace BeanTrader
         void RemoveTradeOffer(Guid offerId);
 
         [OperationContract(IsOneWay = true)]
-        void TradeAccepted(Guid offerId, Guid buyerId, string buyerName);
+        void TradeAccepted(TradeOffer offer, Guid buyerId);
     }
 }

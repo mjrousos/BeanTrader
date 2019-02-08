@@ -10,19 +10,12 @@ namespace BeanTraderClient
 {
     public class BeanTraderCallback : BeanTraderServiceCallback
     {
-        public void AddNewTradeOffer(TradeOffer offer)
-        {
-            throw new NotImplementedException();
-        }
+        public event Action<TradeOffer> AddNewTradeOfferHandler;
+        public event Action<Guid> RemoveTradeOfferHandler;
+        public event Action<TradeOffer, Guid> TradeAcceptedHandler;
 
-        public void RemoveTradeOffer(Guid offerId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TradeAccepted(Guid offerId, Guid buyerId, string buyerName)
-        {
-            throw new NotImplementedException();
-        }
+        public void AddNewTradeOffer(TradeOffer offer) => AddNewTradeOfferHandler?.Invoke(offer);
+        public void RemoveTradeOffer(Guid offerId) => RemoveTradeOfferHandler?.Invoke(offerId);
+        public void TradeAccepted(TradeOffer offer, Guid buyerId) => TradeAcceptedHandler?.Invoke(offer, buyerId);
     }
 }

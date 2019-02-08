@@ -245,7 +245,7 @@ public interface BeanTraderServiceCallback
     void RemoveTradeOffer(System.Guid offerId);
     
     [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/BeanTraderService/TradeAccepted")]
-    void TradeAccepted(System.Guid offerId, System.Guid buyerId, string buyerName);
+    void TradeAccepted(BeanTrader.Models.TradeOffer offer, System.Guid buyerId);
 }
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
