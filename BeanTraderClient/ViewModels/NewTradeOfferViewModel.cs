@@ -8,9 +8,11 @@ namespace BeanTraderClient.ViewModels
     public class NewTradeOfferViewModel
     {
         private readonly Func<Task> closeDialogFunc;
+        public delegate Task CreateTradeDelegate(TradeOffer tradeOffer);
 
         public BeanDictionary BeansOffered { get; set; } = new BeanDictionary();
         public BeanDictionary BeansAsked { get; set; } = new BeanDictionary();
+        public event CreateTradeDelegate CreateTradeHandler;
 
         public bool? NewOfferAdded = null;
 
@@ -22,6 +24,12 @@ namespace BeanTraderClient.ViewModels
         public async Task CreateTradeOffer()
         {
             await closeDialogFunc();
+
+            await CreateTradeHandler?.Invoke(new TradeOffer
+            {
+                Asking = BeansAsked,
+                Offering = BeansOffered
+            });
         }
 
         public async Task CancelTradeOffer()

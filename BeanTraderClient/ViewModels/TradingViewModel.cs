@@ -81,6 +81,17 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
+        internal void UpdateTraderInfo()
+        {
+            // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
+            // how such calls can be ported to .NET Core.
+            Func<Trader> userInfoRetriever = MainWindow.BeanTrader.GetCurrentTraderInfo;
+            userInfoRetriever.BeginInvoke(result =>
+            {
+                CurrentTrader = userInfoRetriever.EndInvoke(result);
+            }, null);
+        }
+
         public void RemoveTraderOffer(Guid offerId)
         {
             var offer = tradeOffers.SingleOrDefault(o => o.Id == offerId);
@@ -101,7 +112,7 @@ namespace BeanTraderClient.ViewModels
         }
 
         public string UserName => CurrentTrader?.Name;
-        public int[] Inventory => CurrentTrader?.Inventory ?? new int[0];
+        public int[] Inventory => CurrentTrader?.Inventory ?? new int[4];
 
         public string WelcomeMessage =>
             string.IsNullOrEmpty(UserName) ?
@@ -123,6 +134,7 @@ namespace BeanTraderClient.ViewModels
             };
 
             var newTradeOfferViewModel = new NewTradeOfferViewModel(() => dialogCoordinator.HideMetroDialogAsync(this, newTradeDialog));
+            newTradeOfferViewModel.CreateTradeHandler += CreateTradeAsync;
 
             newTradeDialog.Content = new NewTradeOfferControl
             {
@@ -131,6 +143,21 @@ namespace BeanTraderClient.ViewModels
 
             await dialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog);
         }
+
+        private async Task CreateTradeAsync(TradeOffer tradeOffer)
+        {
+            if (await MainWindow.BeanTrader.OfferTradeAsync(tradeOffer) != Guid.Empty)
+            {
+                SetStatus("New trade offer created");
+            }
+            else
+            {
+                SetStatus("ERROR - Trade offer could not be created. Do you have sufficient beans?", Application.Current.FindResource("ErrorBrush") as Brush);
+            }
+
+            UpdateTraderInfo();
+        }
+
         private void SetStatus(string message) => SetStatus(message, Application.Current.FindResource("IdealForegroundColorBrush") as Brush);
 
         private void SetStatus(string message, Brush brush)

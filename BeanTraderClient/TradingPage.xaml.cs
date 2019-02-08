@@ -34,13 +34,7 @@ namespace BeanTraderClient
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
-            // how such calls can be ported to .NET Core.
-            Func<Trader> userInfoRetriever = MainWindow.BeanTrader.GetCurrentTraderInfo;
-            userInfoRetriever.BeginInvoke(result =>
-            {
-                Model.CurrentTrader = userInfoRetriever.EndInvoke(result);
-            }, null);
+            Model.UpdateTraderInfo();
         }
 
         private async void NewTradeButton_Click(object sender, RoutedEventArgs e)
