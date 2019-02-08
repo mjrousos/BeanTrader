@@ -13,28 +13,28 @@
         <DataTemplate DataType="{x:Type models:BeanDictionary}">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Margin="5 2" Orientation="Horizontal" Visibility="{Binding ConverterParameter={x:Static models:Beans.Red}, Converter={StaticResource CountToVisibilityConverter}}">
-                    <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" >
+                    <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" >
                         <Image Source="{StaticResource RedBean}" Width="30" />
                     </Border>
                     <TextBlock Text="{Binding Path=[(models:Beans)Red]}" Foreground="{StaticResource RedBeanBrush}" Margin="2 0" FontSize="20" />
                 </StackPanel>
 
                 <StackPanel Margin="5 2" Orientation="Horizontal" Visibility="{Binding ConverterParameter={x:Static models:Beans.Blue}, Converter={StaticResource CountToVisibilityConverter}}">
-                    <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" >
+                    <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" >
                         <Image Source="{StaticResource BlueBean}" Width="30" />
                     </Border>
                     <TextBlock Text="{Binding Path=[(models:Beans)Blue]}" Foreground="{StaticResource BlueBeanBrush}" Margin="2 0" FontSize="20" />
                 </StackPanel>
 
                 <StackPanel Margin="5 2" Orientation="Horizontal" Visibility="{Binding ConverterParameter={x:Static models:Beans.Green}, Converter={StaticResource CountToVisibilityConverter}}">
-                    <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" >
+                    <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" >
                         <Image Source="{StaticResource GreenBean}" Width="30" />
                     </Border>
                     <TextBlock Text="{Binding Path=[(models:Beans)Green]}" Foreground="{StaticResource GreenBeanBrush}" Margin="2 0" FontSize="20" />
                 </StackPanel>
 
                 <StackPanel Margin="5 2" Orientation="Horizontal" Visibility="{Binding ConverterParameter={x:Static models:Beans.Yellow}, Converter={StaticResource CountToVisibilityConverter}}">
-                    <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" >
+                    <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" >
                         <Image Source="{StaticResource YellowBean}" Width="30" />
                     </Border>
                     <TextBlock Text="{Binding Path=[(models:Beans)Yellow]}" Foreground="{StaticResource YellowBeanBrush}" Margin="2 0" FontSize="20" />

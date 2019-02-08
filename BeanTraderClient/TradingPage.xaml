@@ -27,28 +27,28 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{StaticResource InactiveBackground}">
+        <DockPanel Grid.Row="0" Background="{StaticResource WindowBackgroundBrush}">
             <Button Name="LogoutButton" Content="{x:Static resources:StringResources.Logout}" Click="LogoutButton_Click" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" />
             <TextBlock Name="UsernameLabel" Text="{Binding Path=WelcomeMessage, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" HorizontalAlignment="Right" />
         </DockPanel>
-        <DockPanel Grid.Row="1" Background="{StaticResource InactiveBackground}">
-            <ListView Grid.Row="1" Margin="10, 5" Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="3" ItemsSource="{Binding TradeOffers}" HorizontalContentAlignment="Stretch" />
+        <DockPanel Grid.Row="1" Background="{StaticResource WindowBackgroundBrush}">
+            <ListView Grid.Row="1" Margin="10, 5" Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="3" ItemsSource="{Binding TradeOffers}" HorizontalContentAlignment="Stretch" />
         </DockPanel>
-        <DockPanel Grid.Row="2" Background="{StaticResource InactiveBackground}">
+        <DockPanel Grid.Row="2" Background="{StaticResource WindowBackgroundBrush}">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="10 5">
-                <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" >
                     <Image Source="{StaticResource RedBean}" Width="40" />
                 </Border>
                 <TextBlock Name="RedBeanCount" Text="{Binding Inventory[0]}" FontSize="28" />
-                <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="10,0,0,0" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10,0,0,0" >
                     <Image Source="{StaticResource BlueBean}" Width="40" />
                 </Border>
                 <TextBlock Name="BlueBeanCount" Text="{Binding Inventory[1]}" FontSize="28" />
-                <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="10,0,0,0" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10,0,0,0" >
                     <Image Source="{StaticResource GreenBean}" Width="40" />
                 </Border>
                 <TextBlock Name="GreenBeanCount" Text="{Binding Inventory[2]}" FontSize="28" />
-                <Border Background="{StaticResource ActiveBackground}" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="10,0,0,0" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10,0,0,0" >
                     <Image Source="{StaticResource YellowBean}" Width="40" />
                 </Border>
                 <TextBlock Name="YellowBeanCount" Text="{Binding Inventory[3]}" FontSize="28" />

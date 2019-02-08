@@ -29,6 +29,7 @@ namespace BeanTraderClient
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            // TODO : Store/retrieve name from registry
             NameTextBox.Text = string.Empty;
             NameTextBox.Focus();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -19,7 +20,7 @@ namespace BeanTraderClient
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         // TODO : Might be nice to get these from DI. For now, they can just be statics
         public static BeanTraderService BeanTrader { get; set; }
