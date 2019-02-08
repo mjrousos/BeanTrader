@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace BeanTraderClient.ViewModels
 {
-    public class TradingViewModel : INotifyPropertyChanged
+    public class TradingViewModel : INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,6 +28,26 @@ namespace BeanTraderClient.ViewModels
         {
             this.dialogCoordinator = dialogCoordinator;
             statusClearTimer = new Timer(ClearStatus);
+
+            // Get initial trader info and trade offers
+            UpdateTraderInfo();
+            ListenForTradeOffers();
+
+            // Register for service callbacks
+            MainWindow.BeanTraderCallbackHandler.AddNewTradeOfferHandler += AddTradeOffer;
+            MainWindow.BeanTraderCallbackHandler.RemoveTradeOfferHandler += RemoveTraderOffer;
+            MainWindow.BeanTraderCallbackHandler.TradeAcceptedHandler += TradeAccepted;
+        }
+
+        public void Dispose()
+        {
+            // Stop listening
+            StopListeningForTrades();
+
+            // Unregister for service callbacks
+            MainWindow.BeanTraderCallbackHandler.AddNewTradeOfferHandler -= AddTradeOffer;
+            MainWindow.BeanTraderCallbackHandler.RemoveTradeOfferHandler -= RemoveTraderOffer;
+            MainWindow.BeanTraderCallbackHandler.TradeAcceptedHandler -= TradeAccepted;
         }
 
         public Trader CurrentTrader
@@ -81,7 +101,21 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
-        internal void UpdateTraderInfo()
+        public string UserName => CurrentTrader?.Name;
+        public int[] Inventory => CurrentTrader?.Inventory ?? new int[4];
+
+        public string WelcomeMessage =>
+            string.IsNullOrEmpty(UserName) ?
+            StringResources.DefaultGreeting :
+            string.Format(StringResources.Greeting, UserName);
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+        private void UpdateTraderInfo()
         {
             // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
             // how such calls can be ported to .NET Core.
@@ -92,7 +126,22 @@ namespace BeanTraderClient.ViewModels
             }, null);
         }
 
-        public void RemoveTraderOffer(Guid offerId)
+        private void ListenForTradeOffers()
+        {
+            // Different async pattern just for demonstration's sake
+            MainWindow.BeanTrader.ListenForTradeOffersAsync()
+                .ContinueWith(offersTask =>
+                {
+                    TradeOffers = offersTask.Result;
+                });
+        }
+
+        private void StopListeningForTrades()
+        {
+            MainWindow.BeanTrader.StopListening();
+        }
+
+        private void RemoveTraderOffer(Guid offerId)
         {
             var offer = tradeOffers.SingleOrDefault(o => o.Id == offerId);
             if (offer != null)
@@ -102,7 +151,7 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
-        public void AddTradeOffer(TradeOffer offer)
+        private void AddTradeOffer(TradeOffer offer)
         {
             if (!tradeOffers.Any(o => o.Id == offer.Id))
             {
@@ -111,20 +160,16 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
-        public string UserName => CurrentTrader?.Name;
-        public int[] Inventory => CurrentTrader?.Inventory ?? new int[4];
-
-        public string WelcomeMessage =>
-            string.IsNullOrEmpty(UserName) ?
-            StringResources.DefaultGreeting :
-            string.Format(StringResources.Greeting, UserName);
-
-        protected void OnPropertyChanged(string propertyName)
+        private void TradeAccepted(TradeOffer offer, Guid buyerId)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (offer.SellerId == CurrentTrader.Id)
+            {
+                // TODO - Get buyer name
+                SetStatus($"Trade ({offer}) accepted by {buyerId}");
+            }
         }
 
-        public async Task CreateNewTradeOffer()
+        public async Task ShowNewTradeOfferDialog()
         {
             var newTradeDialog = new CustomDialog
             {
@@ -134,7 +179,7 @@ namespace BeanTraderClient.ViewModels
             };
 
             var newTradeOfferViewModel = new NewTradeOfferViewModel(() => dialogCoordinator.HideMetroDialogAsync(this, newTradeDialog));
-            newTradeOfferViewModel.CreateTradeHandler += CreateTradeAsync;
+            newTradeOfferViewModel.CreateTradeHandler += CreateTradeOfferAsync;
 
             newTradeDialog.Content = new NewTradeOfferControl
             {
@@ -144,7 +189,7 @@ namespace BeanTraderClient.ViewModels
             await dialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog);
         }
 
-        private async Task CreateTradeAsync(TradeOffer tradeOffer)
+        private async Task CreateTradeOfferAsync(TradeOffer tradeOffer)
         {
             if (await MainWindow.BeanTrader.OfferTradeAsync(tradeOffer) != Guid.Empty)
             {
@@ -176,6 +221,5 @@ namespace BeanTraderClient.ViewModels
         {
             StatusText = string.Empty;
         }
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BeanTrader.Models;
-using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Threading.Tasks;
 
@@ -8,11 +7,10 @@ namespace BeanTraderClient.ViewModels
     public class NewTradeOfferViewModel
     {
         private readonly Func<Task> closeDialogFunc;
-        public delegate Task CreateTradeDelegate(TradeOffer tradeOffer);
 
         public BeanDictionary BeansOffered { get; set; } = new BeanDictionary();
         public BeanDictionary BeansAsked { get; set; } = new BeanDictionary();
-        public event CreateTradeDelegate CreateTradeHandler;
+        public event Func<TradeOffer, Task> CreateTradeHandler;
 
         public bool? NewOfferAdded = null;
 

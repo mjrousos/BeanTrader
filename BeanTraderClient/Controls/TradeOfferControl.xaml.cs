@@ -42,9 +42,7 @@ namespace BeanTraderClient.Controls
             get => (TradeOffer)GetValue(TradeOfferProperty);
             set => SetValue(TradeOfferProperty, value);
         }
-
-        // TODO
-        public string SellerName => TradeOffer?.SellerId.ToString();
+        
         public BeanDictionary Offering { get; private set; }
         public BeanDictionary Asking { get; private set; }
 
