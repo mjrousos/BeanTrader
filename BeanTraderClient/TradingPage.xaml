@@ -57,7 +57,7 @@
             </StackPanel>
             <Button Name="NewTradeButton" Content="{x:Static resources:StringResources.NewTradeOffer}" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" Click="NewTradeButton_Click" />
             <Border Background="{StaticResource ControlBackgroundBrush}" Height="30" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 5" >
-                <TextBlock Text="Test message" Name="Status" FontSize="16" Margin="5 0" HorizontalAlignment="Stretch" Background="{StaticResource ControlBackgroundBrush}" />
+                <TextBlock Name="Status" FontSize="16" Margin="5 0" HorizontalAlignment="Stretch" Background="{StaticResource ControlBackgroundBrush}" />
             </Border>
         </DockPanel>
     </Grid>

@@ -14,9 +14,8 @@ namespace BeanTraderClient.ViewModels
 
         public bool? NewOfferAdded = null;
 
-        public NewTradeOfferViewModel(IDialogCoordinator dialogCoordinator, Func<Task> closeDialogFunc)
+        public NewTradeOfferViewModel(Func<Task> closeDialogFunc)
         {
-            this.dialogCoordinator = dialogCoordinator;
             this.closeDialogFunc = closeDialogFunc;
         }
 

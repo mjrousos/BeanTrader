@@ -91,7 +91,7 @@ namespace BeanTraderClient.ViewModels
                 Style = Application.Current.FindResource("DefaultControlStyle") as Style
             };
 
-            var newTradeOfferViewModel = new NewTradeOfferViewModel(dialogCoordinator, () => dialogCoordinator.HideMetroDialogAsync(this, newTradeDialog));
+            var newTradeOfferViewModel = new NewTradeOfferViewModel(() => dialogCoordinator.HideMetroDialogAsync(this, newTradeDialog));
 
             newTradeDialog.Content = new NewTradeOfferControl
             {
