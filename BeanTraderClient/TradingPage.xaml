@@ -38,24 +38,27 @@
         </DockPanel>
         <DockPanel Grid.Row="2" Background="{StaticResource WindowBackgroundBrush}">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="10 5">
-                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 0 5 0" >
                     <Image Source="{StaticResource RedBean}" Width="40" />
                 </Border>
                 <TextBlock Name="RedBeanCount" Text="{Binding Inventory[0]}" FontSize="28" />
-                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10,0,0,0" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 0 5 0" >
                     <Image Source="{StaticResource BlueBean}" Width="40" />
                 </Border>
                 <TextBlock Name="BlueBeanCount" Text="{Binding Inventory[1]}" FontSize="28" />
-                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10,0,0,0" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 0 5 0" >
                     <Image Source="{StaticResource GreenBean}" Width="40" />
                 </Border>
                 <TextBlock Name="GreenBeanCount" Text="{Binding Inventory[2]}" FontSize="28" />
-                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10,0,0,0" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 0 5 0" >
                     <Image Source="{StaticResource YellowBean}" Width="40" />
                 </Border>
                 <TextBlock Name="YellowBeanCount" Text="{Binding Inventory[3]}" FontSize="28" />
             </StackPanel>
             <Button Name="NewTradeButton" Content="{x:Static resources:StringResources.NewTradeOffer}" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" Click="NewTradeButton_Click" />
+            <Border Background="{StaticResource ControlBackgroundBrush}" Height="30" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 5" >
+                <TextBlock Text="Test message" Name="Status" FontSize="16" Margin="5 0" HorizontalAlignment="Stretch" Background="{StaticResource ControlBackgroundBrush}" />
+            </Border>
         </DockPanel>
     </Grid>
 </Page>
