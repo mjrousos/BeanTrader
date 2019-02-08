@@ -10,6 +10,10 @@
         <Setter Property="TitleCaps" Value="False" />
     </Style>
 
+    <Style x:Key="DefaultControlStyle" TargetType="{x:Type Control}">
+        <Setter Property="FontFamily" Value="Consolas" />
+    </Style>
+
     <Style TargetType="Button">
         <Setter Property="Padding" Value="5 3" />
         <Setter Property="VerticalAlignment" Value="Center" />

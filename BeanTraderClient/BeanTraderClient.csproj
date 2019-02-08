@@ -68,6 +68,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\NewTradeOfferControl.xaml.cs">
+      <DependentUpon>NewTradeOfferControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TradeOfferControl.xaml.cs">
       <DependentUpon>TradeOfferControl.xaml</DependentUpon>
     </Compile>
@@ -82,10 +85,15 @@
     <Compile Include="TradingPage.xaml.cs">
       <DependentUpon>TradingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\NewTradeOfferViewModel.cs" />
     <Compile Include="ViewModels\TradingViewModel.cs" />
     <Compile Include="WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\NewTradeOfferControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TradeOfferControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

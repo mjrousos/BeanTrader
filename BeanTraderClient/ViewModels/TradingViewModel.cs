@@ -1,9 +1,14 @@
 ﻿using BeanTrader.Models;
+using BeanTraderClient.Controls;
 using BeanTraderClient.Resources;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 
 namespace BeanTraderClient.ViewModels
 {
@@ -13,6 +18,12 @@ namespace BeanTraderClient.ViewModels
 
         private Trader trader;
         private IList<TradeOffer> tradeOffers;
+        private IDialogCoordinator dialogCoordinator;
+
+        public TradingViewModel(IDialogCoordinator dialogCoordinator)
+        {
+            this.dialogCoordinator = dialogCoordinator;
+        }
 
         public Trader CurrentTrader
         {
@@ -69,6 +80,25 @@ namespace BeanTraderClient.ViewModels
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public async Task CreateNewTradeOffer()
+        {
+            var newTradeDialog = new CustomDialog
+            {
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                Background = Application.Current.FindResource("WindowBackgroundBrush") as Brush,
+                Style = Application.Current.FindResource("DefaultControlStyle") as Style
+            };
+
+            var newTradeOfferViewModel = new NewTradeOfferViewModel(dialogCoordinator, () => dialogCoordinator.HideMetroDialogAsync(this, newTradeDialog));
+
+            newTradeDialog.Content = new NewTradeOfferControl
+            {
+                DataContext = newTradeOfferViewModel
+            };
+
+            await dialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog);
         }
     }
 }

@@ -123,6 +123,15 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Bean Trader</value>
   </data>
+  <data name="Asking" xml:space="preserve">
+    <value>Asking</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
   <data name="DefaultGreeting" xml:space="preserve">
     <value>Signing in...</value>
   </data>
@@ -137,6 +146,12 @@
   </data>
   <data name="NewTradeOffer" xml:space="preserve">
     <value>New trade</value>
+  </data>
+  <data name="NewTradeOfferTitle" xml:space="preserve">
+    <value>New Trade Offer</value>
+  </data>
+  <data name="Offering" xml:space="preserve">
+    <value>Offering</value>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Name</value>

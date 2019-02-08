@@ -1,9 +1,6 @@
-﻿using BeanTrader.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeanTrader.Models
 {
@@ -11,5 +8,13 @@ namespace BeanTrader.Models
     public class BeanDictionary : Dictionary<Beans, uint>
     {
         public BeanDictionary(Dictionary<Beans, uint> source) : base(source) { }
+
+        public BeanDictionary(): this(new Dictionary<Beans, uint>())
+        {
+            foreach (var bean in Enum.GetValues(typeof(Beans)).Cast<Beans>())
+            {
+                Add(bean, 0);
+            }
+        }
     }
 }

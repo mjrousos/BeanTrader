@@ -10,6 +10,8 @@
       xmlns:controls="clr-namespace:BeanTraderClient.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="1100"
+      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      Dialog:DialogParticipation.Register="{Binding}"
       d:DataContext="{x:Static localDesign:DesignTimeContexts.DesignTimeTradingViewModel}"
       Style="{StaticResource DefaultPageStyle}"
       Title="TradingPage" 
@@ -53,7 +55,7 @@
                 </Border>
                 <TextBlock Name="YellowBeanCount" Text="{Binding Inventory[3]}" FontSize="28" />
             </StackPanel>
-            <Button Name="NewTradeButton" Content="{x:Static resources:StringResources.NewTradeOffer}" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" />
+            <Button Name="NewTradeButton" Content="{x:Static resources:StringResources.NewTradeOffer}" DockPanel.Dock="Right" Margin="10 5" HorizontalAlignment="Right" Click="NewTradeButton_Click" />
         </DockPanel>
     </Grid>
 </Page>

@@ -79,6 +79,33 @@ namespace BeanTraderClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Asking.
+        /// </summary>
+        public static string Asking {
+            get {
+                return ResourceManager.GetString("Asking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Signing in....
         /// </summary>
         public static string DefaultGreeting {
@@ -120,6 +147,24 @@ namespace BeanTraderClient.Resources {
         public static string NewTradeOffer {
             get {
                 return ResourceManager.GetString("NewTradeOffer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Trade Offer.
+        /// </summary>
+        public static string NewTradeOfferTitle {
+            get {
+                return ResourceManager.GetString("NewTradeOfferTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offering.
+        /// </summary>
+        public static string Offering {
+            get {
+                return ResourceManager.GetString("Offering", resourceCulture);
             }
         }
         
