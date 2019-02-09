@@ -4,6 +4,7 @@ using BeanTraderClient.Resources;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -130,10 +131,7 @@ namespace BeanTraderClient.ViewModels
         {
             // Different async pattern just for demonstration's sake
             MainWindow.BeanTrader.ListenForTradeOffersAsync()
-                .ContinueWith(offersTask =>
-                {
-                    TradeOffers = offersTask.Result;
-                });
+                .ContinueWith(offersTask => TradeOffers = new ObservableCollection<TradeOffer>(offersTask.Result));
         }
 
         private void StopListeningForTrades()
@@ -146,8 +144,7 @@ namespace BeanTraderClient.ViewModels
             var offer = tradeOffers.SingleOrDefault(o => o.Id == offerId);
             if (offer != null)
             {
-                tradeOffers.Remove(offer);
-                OnPropertyChanged(nameof(TradeOffers));
+                Application.Current.Dispatcher.Invoke(() =>TradeOffers.Remove(offer));
             }
         }
 
@@ -155,8 +152,7 @@ namespace BeanTraderClient.ViewModels
         {
             if (!tradeOffers.Any(o => o.Id == offer.Id))
             {
-                tradeOffers.Add(offer);
-                OnPropertyChanged(nameof(TradeOffers));
+                Application.Current.Dispatcher.Invoke(() => TradeOffers.Add(offer));
             }
         }
 
@@ -197,7 +193,7 @@ namespace BeanTraderClient.ViewModels
             }
             else
             {
-                SetStatus("ERROR - Trade offer could not be created. Do you have sufficient beans?", Application.Current.FindResource("ErrorBrush") as Brush);
+                SetStatus("ERROR: Trade offer could not be created. Do you have enough beans?", Application.Current.FindResource("ErrorBrush") as Brush);
             }
 
             UpdateTraderInfo();
