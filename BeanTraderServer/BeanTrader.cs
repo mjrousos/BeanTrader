@@ -131,9 +131,22 @@ namespace BeanTraderServer
             TradeOffers.AddOrUpdate(tradeOffer.Id, tradeOffer, (id, oldOffer) => tradeOffer);
             Log.Information("New trade offer ({TradeOfferId}) listed by {UserId}", tradeOffer.Id, seller.Id);
 
-            foreach (var callback in Callbacks.Values)
+            List<string> invalidCallbacks = new List<string>();
+            foreach (var callback in Callbacks)
             {
-                callback?.AddNewTradeOffer(tradeOffer);
+                try
+                {
+                    callback.Value?.AddNewTradeOffer(tradeOffer);
+                }
+                catch(CommunicationException)
+                {
+                    Log.Warning("Session {SessionId}'s channel closed unexpectedly; will remove from callback list", callback.Key);
+                    invalidCallbacks.Add(callback.Key);
+                }
+            }
+            foreach (var id in invalidCallbacks)
+            {
+                Callbacks.TryRemove(id, out _);
             }
 
             return tradeOffer.Id;
