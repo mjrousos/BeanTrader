@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace BeanTraderClient
 {
@@ -22,6 +12,9 @@ namespace BeanTraderClient
     /// </summary>
     public partial class WelcomePage : Page
     {
+        private const string BeanTraderClientRegistryKey = @"Software\BeanTraderClient";
+        private const string PreferredNameRegistryValueName = "PreferredUsername";
+
         public WelcomePage()
         {
             InitializeComponent();
@@ -29,19 +22,21 @@ namespace BeanTraderClient
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO : Store/retrieve name from registry
-            NameTextBox.Text = string.Empty;
+            NameTextBox.Text = GetPreferredUserName();
             NameTextBox.Focus();
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            var userName = NameTextBox.Text;
+            SetPreferredUserName(userName);
+
             // This would be simpler with Task.Run, but I want to
             // use APIs that would have been more common in older WPF apps
             var worker = new BackgroundWorker();
             worker.DoWork += Login;
             worker.RunWorkerCompleted += CompleteLogin;
-            worker.RunWorkerAsync(NameTextBox.Text);
+            worker.RunWorkerAsync(userName);
         }
 
         private void Login(object sender, DoWorkEventArgs e)
@@ -55,5 +50,16 @@ namespace BeanTraderClient
             NavigationService.Navigate(new TradingPage());
         }
 
+        private string GetPreferredUserName()
+        {
+            var regKey = Registry.CurrentUser.CreateSubKey(BeanTraderClientRegistryKey);
+            return regKey.GetValue(PreferredNameRegistryValueName)?.ToString() ?? string.Empty;
+        }
+
+        private void SetPreferredUserName(string userName)
+        {
+            var regKey = Registry.CurrentUser.CreateSubKey(BeanTraderClientRegistryKey);
+            regKey.SetValue(PreferredNameRegistryValueName, userName);
+        }
     }
 }
