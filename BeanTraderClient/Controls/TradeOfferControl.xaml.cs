@@ -55,11 +55,17 @@ namespace BeanTraderClient.Controls
         }
         
         public BeanDictionary Offering { get; private set; }
+
         public BeanDictionary Asking { get; private set; }
+
         public string CompleteTradeDescription =>
             TradeOffer?.SellerId == TradingModel?.CurrentTrader.Id ?
             StringResources.CancelTradeDescription :
             StringResources.AcceptTradeDescription;
+
+        public string SellerName => (TradingModel == null) ? 
+            TradeOffer.SellerId.ToString() : 
+            (TradingModel.GetTraderName(TradeOffer.SellerId) ?? TradeOffer.SellerId.ToString());
 
         public TradeOfferControl()
         {

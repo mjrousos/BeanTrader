@@ -3,6 +3,7 @@ using BeanTraderClient.Controls;
 using BeanTraderClient.Resources;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,6 +25,9 @@ namespace BeanTraderClient.ViewModels
         private IList<TradeOffer> tradeOffers;
         private readonly IDialogCoordinator dialogCoordinator;
         private readonly Timer statusClearTimer;
+
+        // Initialized by ListenForTradeOffers, this field caches trader names (indexed by ID)
+        private ConcurrentDictionary<Guid, string> traderNames;
 
         public TradingViewModel(IDialogCoordinator dialogCoordinator)
         {
@@ -79,6 +83,20 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
+        public string GetTraderName(Guid sellerId)
+        {
+            if (!traderNames.TryGetValue(sellerId, out string sellerName))
+            {
+                var names = MainWindow.BeanTrader.GetTraderNames(new Guid[] { sellerId });
+
+                sellerName = names.ContainsKey(sellerId) ?
+                    traderNames.AddOrUpdate(sellerId, names[sellerId], (g, s) => names[sellerId]) :
+                    null;
+            }
+
+            return sellerName;
+        }
+
         public Brush StatusBrush
         {
             get => statusBrush;
@@ -130,7 +148,13 @@ namespace BeanTraderClient.ViewModels
         {
             // Different async pattern just for demonstration's sake
             MainWindow.BeanTrader.ListenForTradeOffersAsync()
-                .ContinueWith(offersTask => TradeOffers = new ObservableCollection<TradeOffer>(offersTask.Result));
+                .ContinueWith(offersTask =>
+                {
+                    var tradeOffers = offersTask.Result;
+                    var sellerIds = tradeOffers.Select(t => t.SellerId);
+                    traderNames = new ConcurrentDictionary<Guid, string>(MainWindow.BeanTrader.GetTraderNames(sellerIds.ToArray()));
+                    TradeOffers = new ObservableCollection<TradeOffer>(tradeOffers);
+                });
         }
 
         private void Logout()
@@ -160,9 +184,11 @@ namespace BeanTraderClient.ViewModels
         {
             if (offer.SellerId == CurrentTrader.Id)
             {
-                // TODO - Get buyer name
-                SetStatus($"Trade ({offer}) accepted by {buyerId}");
-                UpdateTraderInfo();
+                Task.Run(() =>
+                {
+                    SetStatus($"Trade ({offer}) accepted by {GetTraderName(buyerId) ?? buyerId.ToString()}");
+                    UpdateTraderInfo();
+                });
             }
         }
 

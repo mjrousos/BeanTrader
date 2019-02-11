@@ -5,9 +5,6 @@ namespace BeanTrader.Models
 {
     public partial class TradeOffer
     {
-        // TODO
-        public string SellerName => SellerId.ToString();
-
         public override string ToString() =>
             $"{BeansToString(Offering)} => {BeansToString(Asking)}";
 
