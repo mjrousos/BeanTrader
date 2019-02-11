@@ -31,6 +31,8 @@ namespace BeanTraderClient
             var userName = NameTextBox.Text;
             SetPreferredUserName(userName);
 
+            StartButton.IsEnabled = false;
+
             // This would be simpler with Task.Run, but I want to
             // use APIs that would have been more common in older WPF apps
             var worker = new BackgroundWorker();
@@ -47,6 +49,7 @@ namespace BeanTraderClient
 
         private void CompleteLogin(object sender, RunWorkerCompletedEventArgs e)
         {
+            StartButton.IsEnabled = true;
             NavigationService.Navigate(new TradingPage());
         }
 
