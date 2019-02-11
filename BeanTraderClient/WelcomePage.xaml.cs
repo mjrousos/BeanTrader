@@ -47,7 +47,7 @@ namespace BeanTraderClient
         private void Login(object sender, DoWorkEventArgs e)
         {
             MainWindow.BeanTrader = new BeanTraderServiceClient(new InstanceContext(MainWindow.BeanTraderCallbackHandler));
-            MainWindow.BeanTrader.SetTraderName(e.Argument as string);
+            MainWindow.BeanTrader.Login(e.Argument as string);
         }
 
         private void CompleteLogin(object sender, RunWorkerCompletedEventArgs e)

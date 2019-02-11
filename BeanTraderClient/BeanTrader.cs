@@ -197,11 +197,17 @@ public interface BeanTraderService
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/BeanTraderService/GetCurrentTraderInfo", ReplyAction="http://tempuri.org/BeanTraderService/GetCurrentTraderInfoResponse")]
     System.Threading.Tasks.Task<BeanTrader.Models.Trader> GetCurrentTraderInfoAsync();
     
-    [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/BeanTraderService/SetTraderName")]
-    void SetTraderName(string name);
+    [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/BeanTraderService/Login")]
+    void Login(string name);
     
-    [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/BeanTraderService/SetTraderName")]
-    System.Threading.Tasks.Task SetTraderNameAsync(string name);
+    [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/BeanTraderService/Login")]
+    System.Threading.Tasks.Task LoginAsync(string name);
+    
+    [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/BeanTraderService/Logout")]
+    void Logout();
+    
+    [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/BeanTraderService/Logout")]
+    System.Threading.Tasks.Task LogoutAsync();
     
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/BeanTraderService/GetTraderNames", ReplyAction="http://tempuri.org/BeanTraderService/GetTraderNamesResponse")]
     System.Collections.Generic.Dictionary<System.Guid, string> GetTraderNames(System.Guid[] traderId);
@@ -303,14 +309,24 @@ public partial class BeanTraderServiceClient : System.ServiceModel.DuplexClientB
         return base.Channel.GetCurrentTraderInfoAsync();
     }
     
-    public void SetTraderName(string name)
+    public void Login(string name)
     {
-        base.Channel.SetTraderName(name);
+        base.Channel.Login(name);
     }
     
-    public System.Threading.Tasks.Task SetTraderNameAsync(string name)
+    public System.Threading.Tasks.Task LoginAsync(string name)
     {
-        return base.Channel.SetTraderNameAsync(name);
+        return base.Channel.LoginAsync(name);
+    }
+    
+    public void Logout()
+    {
+        base.Channel.Logout();
+    }
+    
+    public System.Threading.Tasks.Task LogoutAsync()
+    {
+        return base.Channel.LogoutAsync();
     }
     
     public System.Collections.Generic.Dictionary<System.Guid, string> GetTraderNames(System.Guid[] traderId)

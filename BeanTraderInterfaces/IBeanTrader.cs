@@ -15,7 +15,10 @@ namespace BeanTrader
         Trader GetCurrentTraderInfo();
 
         [OperationContract(IsOneWay = true)]
-        void SetTraderName(string name);
+        void Login(string name);
+
+        [OperationContract(IsOneWay = true)]
+        void Logout();
 
         [OperationContract]
         Dictionary<Guid, string> GetTraderNames(IEnumerable<Guid> traderId);

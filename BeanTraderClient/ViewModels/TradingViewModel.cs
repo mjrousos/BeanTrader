@@ -43,7 +43,7 @@ namespace BeanTraderClient.ViewModels
         public void Dispose()
         {
             // Stop listening
-            StopListeningForTrades();
+            Logout();
 
             // Unregister for service callbacks
             MainWindow.BeanTraderCallbackHandler.AddNewTradeOfferHandler -= AddTradeOffer;
@@ -133,9 +133,10 @@ namespace BeanTraderClient.ViewModels
                 .ContinueWith(offersTask => TradeOffers = new ObservableCollection<TradeOffer>(offersTask.Result));
         }
 
-        private void StopListeningForTrades()
+        private void Logout()
         {
             MainWindow.BeanTrader.StopListening();
+            MainWindow.BeanTrader.Logout();
         }
 
         private void RemoveTraderOffer(Guid offerId)

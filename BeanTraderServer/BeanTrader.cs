@@ -14,6 +14,7 @@ namespace BeanTraderServer
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     class BeanTrader : IBeanTrader
     {
+
         // Traders (organized by UserId)
         private ConcurrentDictionary<Guid, Trader> Traders { get; }
 
@@ -23,6 +24,9 @@ namespace BeanTraderServer
         // Active listening sessions (organized by SessionId)
         private ConcurrentDictionary<string, IBeanTraderCallback> Callbacks { get; }
 
+        // Active Sessions (organized by SessionId)
+        private ConcurrentDictionary<string, Guid> LoggedInTraders { get; }
+
         private readonly HashAlgorithm Algorithm = SHA1.Create();
 
         public BeanTrader()
@@ -30,6 +34,7 @@ namespace BeanTraderServer
             TradeOffers = new ConcurrentDictionary<Guid, TradeOffer>();
             Traders = new ConcurrentDictionary<Guid, Trader>();
             Callbacks = new ConcurrentDictionary<string, IBeanTraderCallback>();
+            LoggedInTraders = new ConcurrentDictionary<string, Guid>();
         }
 
         public IEnumerable<TradeOffer> ListenForTradeOffers()
@@ -37,6 +42,12 @@ namespace BeanTraderServer
             var context = OperationContext.Current;
             var sessionId = context.SessionId;
             var user = GetCurrentTraderInfo();
+
+            if (user == null)
+            {
+                Log.Warning("Failed to return trade offers for session {SessionId} because no user is logged on", sessionId);
+                return null;
+            }
 
             var callback = context.GetCallbackChannel<IBeanTraderCallback>();
             Callbacks.AddOrUpdate(sessionId, callback, (id, oldCallback) => callback);
@@ -54,6 +65,12 @@ namespace BeanTraderServer
         public bool AcceptTrade(Guid offerId)
         {
             var buyer = GetCurrentTraderInfo();
+
+            if (buyer == null)
+            {
+                Log.Warning("Failed to accept trade offer {TradeOfferId} for session {SessionId} because no user is logged on", offerId, OperationContext.Current.SessionId);
+            }
+
             if (!TradeOffers.TryGetValue(offerId, out TradeOffer tradeOffer))
             {
                 Log.Information("Trader {UserId} attempted to accept trade offer {TradeOfferId} but it was not available", buyer.Id, offerId);
@@ -106,6 +123,12 @@ namespace BeanTraderServer
         {
             var seller = GetCurrentTraderInfo();
 
+            if (seller == null)
+            {
+                Log.Warning("Failed to offer trade for session {SessionId} because no user is logged on", OperationContext.Current.SessionId);
+                return Guid.Empty;
+            }
+
             if (tradeOffer == null || tradeOffer.Offering == null || tradeOffer.Asking == null)
             {
                 Log.Information("Rejecting invalid trade offer from {UserId}", seller.Id);
@@ -155,6 +178,13 @@ namespace BeanTraderServer
         public bool CancelTradeOffer(Guid offerId)
         {
             var seller = GetCurrentTraderInfo();
+
+            if (seller == null)
+            {
+                Log.Warning("Failed to cancel trade {TradeOfferId} for session {SessionId} because no user is logged on", offerId, OperationContext.Current.SessionId);
+                return false;
+            }
+
             if (TradeOffers.TryRemove(offerId, out TradeOffer tradeOffer))
             {
                 foreach (var callback in Callbacks.Values)
@@ -187,16 +217,39 @@ namespace BeanTraderServer
         public Trader GetCurrentTraderInfo()
         {
             var userId = GetUserIdForContext(OperationContext.Current);
-            Log.Information("User info retrieved for user {UserId}", userId);
-            return Traders.GetOrAdd(GetUserIdForContext(OperationContext.Current), new Trader(userId));
+            return userId.HasValue ?
+                Traders.GetOrAdd(userId.Value, new Trader(userId.Value)) :
+                null;
         }
 
-        public void SetTraderName(string name)
+        public void Login(string name)
         {
+            // For demo purposes, just convert requested user name to user ID
+            // without authentication.
+            var userId = ConvertStringToGuid(name);
+            LoggedInTraders.AddOrUpdate(OperationContext.Current.SessionId, userId, (s, g) => userId);
             var user = GetCurrentTraderInfo();
             user.Name = name;
 
-            Log.Information("User {UserId}'s name set to {UserName}", user.Id, name);
+            Log.Information("User {UserId} ({UserName}) logged in", user.Id, user.Name);
+        }
+
+        public void Logout()
+        {
+            var user = GetCurrentTraderInfo();
+            if (user == null)
+            {
+                return;
+            }
+
+            if (LoggedInTraders.TryRemove(OperationContext.Current.SessionId, out _))
+            {
+                Log.Information("User {UserId} ({UserName}) logged out", user.Id, user.Name);
+            }
+            else
+            {
+                Log.Information("Unable to log out user {UserId} ({UserName}) because they were not logged in", user.Id, user.Name);
+            }
         }
 
         public Dictionary<Guid, string> GetTraderNames(IEnumerable<Guid> traderIds)
@@ -215,14 +268,17 @@ namespace BeanTraderServer
             Log.Information("Retrieved {count} trader names for user {UserId}", ret.Count, currentUser.Id);
             return ret;
         }
-
-        private Guid GetUserIdForContext(OperationContext context)
+        
+        private Guid? GetUserIdForContext(OperationContext context)
         {
-            var userId =
-                // TODO : context.ClaimsPrincipal.Identity.Name;
-                context.SessionId;
-
-            return ConvertStringToGuid(userId);
+            if (LoggedInTraders.TryGetValue(context.SessionId, out Guid userId))
+            {
+                return userId;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private bool TraderHasFunds(Trader buyer, IEnumerable<KeyValuePair<Beans, uint>> beans)
