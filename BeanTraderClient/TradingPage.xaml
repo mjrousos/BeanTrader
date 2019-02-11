@@ -17,7 +17,7 @@
       Title="TradingPage">
     <Page.Resources>
         <DataTemplate DataType="{x:Type models:TradeOffer}">
-            <controls:TradeOfferControl TradeOffer="{Binding}" />
+            <controls:TradeOfferControl TradeOffer="{Binding}" TradingModel="{Binding ElementName=TradeOfferList, Path=DataContext}"/>
         </DataTemplate>
     </Page.Resources>
 
@@ -32,7 +32,7 @@
             <TextBlock Name="UsernameLabel" Text="{Binding Path=WelcomeMessage, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" HorizontalAlignment="Right" />
         </DockPanel>
         <DockPanel Grid.Row="1" Background="{StaticResource WindowBackgroundBrush}">
-            <ListView Grid.Row="1" Margin="10, 5" Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="3" ItemsSource="{Binding TradeOffers}" HorizontalContentAlignment="Stretch" />
+            <ListView x:Name="TradeOfferList" Grid.Row="1" Margin="10, 5" Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="3" ItemsSource="{Binding TradeOffers}" HorizontalContentAlignment="Stretch" />
         </DockPanel>
         <DockPanel Grid.Row="2" Background="{StaticResource WindowBackgroundBrush}">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="10 5">

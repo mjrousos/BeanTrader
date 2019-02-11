@@ -115,7 +115,6 @@ namespace BeanTraderClient.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
         private void UpdateTraderInfo()
         {
             // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
@@ -162,7 +161,31 @@ namespace BeanTraderClient.ViewModels
             {
                 // TODO - Get buyer name
                 SetStatus($"Trade ({offer}) accepted by {buyerId}");
+                UpdateTraderInfo();
             }
+        }
+
+        public async Task<bool> CompleteTrade(TradeOffer tradeOffer)
+        {
+            var ownTrade = tradeOffer.SellerId == CurrentTrader.Id;
+            var success = ownTrade ?
+                await MainWindow.BeanTrader?.CancelTradeOfferAsync(tradeOffer.Id) :
+                await MainWindow.BeanTrader?.AcceptTradeAsync(tradeOffer.Id);
+
+            if (success)
+            {
+                SetStatus($"{(ownTrade ? "Canceled" : "Accepted")} trade ({tradeOffer})");
+
+                // Remove the trade from the list and update trader inventory
+                //RemoveTraderOffer(tradeOffer.Id);
+                UpdateTraderInfo();
+            }
+            else
+            {
+                SetStatus($"Unable to {(ownTrade ? "cancel" : "accept")} trade ({tradeOffer}).", Application.Current.FindResource("ErrorBrush") as Brush);
+            }
+
+            return success;
         }
 
         public async Task ShowNewTradeOfferDialog()

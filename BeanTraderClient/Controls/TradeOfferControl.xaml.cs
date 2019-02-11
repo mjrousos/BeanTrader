@@ -1,4 +1,5 @@
 ﻿using BeanTrader.Models;
+using BeanTraderClient.Resources;
 using BeanTraderClient.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,9 @@ namespace BeanTraderClient.Controls
         public static readonly DependencyProperty TradeOfferProperty =
             DependencyProperty.Register("TradeOffer", typeof(TradeOffer), typeof(TradeOfferControl), new PropertyMetadata(new PropertyChangedCallback(UpdateDictionaries)));
 
+        public static readonly DependencyProperty TradingModelProperty =
+            DependencyProperty.Register("TradingModel", typeof(TradingViewModel), typeof(TradeOfferControl));
+
         private static void UpdateDictionaries(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Update these on TradeOffer so that the BeanDictionaries are available for
@@ -42,9 +46,20 @@ namespace BeanTraderClient.Controls
             get => (TradeOffer)GetValue(TradeOfferProperty);
             set => SetValue(TradeOfferProperty, value);
         }
+
+        // Access parent trading model (if any) to allow making trades, etc.
+        public TradingViewModel TradingModel
+        {
+            get => (TradingViewModel)GetValue(TradingModelProperty);
+            set => SetValue(TradingModelProperty, value);
+        }
         
         public BeanDictionary Offering { get; private set; }
         public BeanDictionary Asking { get; private set; }
+        public string CompleteTradeDescription =>
+            TradeOffer?.SellerId == TradingModel?.CurrentTrader.Id ?
+            StringResources.CancelTradeDescription :
+            StringResources.AcceptTradeDescription;
 
         public TradeOfferControl()
         {
@@ -56,9 +71,13 @@ namespace BeanTraderClient.Controls
             LayoutRoot.DataContext = this;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void CompleteTradeButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            CompleteTradeButton.IsEnabled = false;
+            if (!await TradingModel?.CompleteTrade(TradeOffer))
+            {
+                CompleteTradeButton.IsEnabled = true;
+            }            
         }
     }
 }

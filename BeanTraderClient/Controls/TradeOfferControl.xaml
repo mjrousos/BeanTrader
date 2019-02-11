@@ -54,7 +54,7 @@
             <ContentControl Grid.Column="2" Content="{Binding Offering}" />
         </Grid>
 
-        <Button Margin="10 5" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="Accept Trade" Click="Button_Click" />
+        <Button x:Name="CompleteTradeButton" Margin="10 5" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{Binding CompleteTradeDescription}" Click="CompleteTradeButton_Click" />
         <TextBlock Margin="10 5" Text="{Binding Path=TradeOffer.SellerName}" HorizontalAlignment="Right" />
     </DockPanel>
 </UserControl>

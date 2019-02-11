@@ -61,6 +61,15 @@ namespace BeanTraderClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accept Trade.
+        /// </summary>
+        public static string AcceptTradeDescription {
+            get {
+                return ResourceManager.GetString("AcceptTradeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A .NET Core 3 WPF Sample.
         /// </summary>
         public static string ApplicationSubtitle {
@@ -93,6 +102,15 @@ namespace BeanTraderClient.Resources {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel Trade.
+        /// </summary>
+        public static string CancelTradeDescription {
+            get {
+                return ResourceManager.GetString("CancelTradeDescription", resourceCulture);
             }
         }
         
