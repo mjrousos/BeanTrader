@@ -1,19 +1,11 @@
 ﻿using MahApps.Metro.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Azure.KeyVault;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Configuration;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
-using System.Text;
+using System.ServiceModel.Security;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BeanTraderClient
 {
@@ -23,7 +15,7 @@ namespace BeanTraderClient
     public partial class MainWindow : MetroWindow
     {
         private static BeanTraderServiceClient beanTraderClient;
-        private static object clientSyncObject = new object();
+        private static readonly object clientSyncObject = new object();
 
         // TODO : Might be nice to get these from DI. For now, they can just be statics
         public static string CurrentUsername { get; set; }
@@ -41,6 +33,8 @@ namespace BeanTraderClient
                         if (beanTraderClient == null || beanTraderClient.State == CommunicationState.Closed || beanTraderClient.State == CommunicationState.Faulted)
                         {
                             beanTraderClient = new BeanTraderServiceClient(new InstanceContext(BeanTraderCallbackHandler));
+                            beanTraderClient.ClientCredentials.ClientCertificate.Certificate = GetCertificate();
+                            beanTraderClient.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
                             beanTraderClient.Open();
 
                             // Set user name ("login")
@@ -54,6 +48,22 @@ namespace BeanTraderClient
 
                 return beanTraderClient;
             }
+        }
+
+        private static X509Certificate2 GetCertificate()
+        {
+            var keyVaultClient = new KeyVaultClient(GetAzureAccessToken);
+            return new X509Certificate2(keyVaultClient.GetCertificateAsync(ConfigurationManager.AppSettings["CertificateIdentifier"]).Result.Cer);
+        }
+
+        private static async Task<string> GetAzureAccessToken(string authority, string resource, string scope)
+        {
+            var appCredentials = new ClientCredential(ConfigurationManager.AppSettings["AzureAppId"], ConfigurationManager.AppSettings["AzureAppPassword"]);
+            var context = new AuthenticationContext(authority, TokenCache.DefaultShared);
+
+            var result = await context.AcquireTokenAsync(resource, appCredentials);
+
+            return result.AccessToken;
         }
 
         public static BeanTraderCallback BeanTraderCallbackHandler { get; set; } = new BeanTraderCallback();
