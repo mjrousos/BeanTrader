@@ -110,10 +110,23 @@ namespace BeanTraderServer
             Log.Information("Trader {UserId} has accepted trade offer {TradeOfferId} from seller {UserId}", buyer.Id, offerId, tradeOffer.SellerId);
 
             // Alert traders that the trade has been accepted and is no longer available
-            foreach (var callback in Callbacks.Values)
+            var invalidCallbacks = new List<string>();
+            foreach (var callback in Callbacks)
             {
-                callback?.TradeAccepted(tradeOffer, buyer.Id);
-                callback?.RemoveTradeOffer(offerId);
+                try
+                {
+                    callback.Value?.TradeAccepted(tradeOffer, buyer.Id);
+                    callback.Value?.RemoveTradeOffer(offerId);
+                }
+                catch (CommunicationException)
+                {
+                    Log.Warning("Session {SessionId}'s channel closed unexpectedly; will remove from callback list", callback.Key);
+                    invalidCallbacks.Add(callback.Key);
+                }
+            }
+            foreach (var id in invalidCallbacks)
+            {
+                Callbacks.TryRemove(id, out _);
             }
 
             return true;
@@ -187,9 +200,22 @@ namespace BeanTraderServer
 
             if (TradeOffers.TryRemove(offerId, out TradeOffer tradeOffer))
             {
-                foreach (var callback in Callbacks.Values)
+                List<string> invalidCallbacks = new List<string>();
+                foreach (var callback in Callbacks)
                 {
-                    callback?.RemoveTradeOffer(offerId);
+                    try
+                    {
+                        callback.Value?.RemoveTradeOffer(offerId);
+                    }
+                    catch (CommunicationException)
+                    {
+                        Log.Warning("Session {SessionId}'s channel closed unexpectedly; will remove from callback list", callback.Key);
+                        invalidCallbacks.Add(callback.Key);
+                    }
+                }
+                foreach (var id in invalidCallbacks)
+                {
+                    Callbacks.TryRemove(id, out _);
                 }
 
                 // Refund seller's beans
