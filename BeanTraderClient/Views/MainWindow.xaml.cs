@@ -7,7 +7,7 @@ using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Threading.Tasks;
 
-namespace BeanTraderClient
+namespace BeanTraderClient.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

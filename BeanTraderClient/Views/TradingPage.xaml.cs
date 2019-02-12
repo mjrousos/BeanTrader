@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
-namespace BeanTraderClient
+namespace BeanTraderClient.Views
 {
     /// <summary>
     /// Interaction logic for TradingPage.xaml

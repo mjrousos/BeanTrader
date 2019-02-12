@@ -135,12 +135,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TradingPage.xaml.cs">
+    <Compile Include="Views\TradingPage.xaml.cs">
       <DependentUpon>TradingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\NewTradeOfferViewModel.cs" />
     <Compile Include="ViewModels\TradingViewModel.cs" />
-    <Compile Include="WelcomePage.xaml.cs">
+    <Compile Include="Views\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\NewTradeOfferControl.xaml">
@@ -151,7 +151,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -161,7 +161,7 @@
     </Compile>
     <Compile Include="BeanTrader.cs" />
     <Compile Include="BeanTraderCallback.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -178,11 +178,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Page Include="TradingPage.xaml">
+    <Page Include="Views\TradingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WelcomePage.xaml">
+    <Page Include="Views\WelcomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

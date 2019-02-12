@@ -1,6 +1,7 @@
 ﻿using BeanTrader.Models;
 using BeanTraderClient.Controls;
 using BeanTraderClient.Resources;
+using BeanTraderClient.Views;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Concurrent;
