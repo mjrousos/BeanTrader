@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Bean Trader.exe" version="1.0.0.0" publicKeyToken="3da311118bed9c63" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="BeanTraderClient" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="BeanTraderClient.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="4" minorVersion="10" buildNumber="0" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BeanTraderClient.exe" size="285184">
+      <assemblyIdentity name="BeanTraderClient" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>dJlDhxU7UZj3/MEFe+9QB0JQzkA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ControlzEx.dll" size="180224">
+      <assemblyIdentity name="ControlzEx" version="3.0.2.4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>VeD6IlxvrG8lso/WfvhEKD2WycA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MahApps.Metro.dll" size="1097216">
+      <assemblyIdentity name="MahApps.Metro" version="1.6.5.1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>j/cWEyMNRU7CfXt+5nlSiXUaUnc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Windows.Interactivity.dll" size="55904">
+      <assemblyIdentity name="System.Windows.Interactivity" version="4.5.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>zmxMGM9jj5gJBbnLZxDuH6c7s5c=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="BeanTraderClient.exe.config" size="720">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>eJyghlLvrLRetVPll+6zzEQnoyQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="BeanTraderClient.pdb" size="146944">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>2M+BIBflUUVOSLWR2vbAa3VrYCI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="ControlzEx.pdb" size="310784">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>xM9mwi65FU4igTgMLxNx31GAafI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="MahApps.Metro.pdb" size="1478144">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>XVX21kjYxGUCNoiM443eDvzXkik=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="MahApps.Metro.xml" size="295801">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>W8Jto4WG8r++htKCSHL67hd/BXU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Themes\Default.Accent.xaml" size="1604">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>UVLAQFVHN0n7wCDM0E33v87PhFE=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=REDMOND\mikerou" issuerKeyHash="f2c41da7d99a54c06a8e0b42ed61b8fb45ba4bc9" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>hJdxoQD9AfH+wbO5Tb8J3IIIWMlu+cw51WlPGwmOIDo=</DigestValue></Reference></SignedInfo><SignatureValue>HpB6psAlF8XPguQEWzXSgYAHqzGyjSuv1xPi39AuW1D+cxC0u6UzallbLevW5cdU3vmnMJxJfv/4mNPvyCnT8nBRGqhOIgPZDHaIAIAKOfw/TrUu4KnQbSlFOAu+U/j3edc4rMrrM+wuKmpIFtdscHC72LMjrjvg+gusNoiakn8=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>tqbMm35LUyhYDIKo1VUsfzExq3IrF2TN3EPQqhM2KjBWYdmOhNKtw56x1cIXDYSwMbaTmIRh1VoOnoLILoAyJORYfqukfuA4qXvascXhhXgu3oXcapAJwKv/AWD3jQujxfHKLpgChBdZakNTFazhfU9U87MpgR/1KFTl22FT7CE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="3a208e091b4f69d539ccf96ec9580882dc09bf4db9b3c1fef101fd00a1719784" Description="" Url=""><as:assemblyIdentity name="Bean Trader.exe" version="1.0.0.0" publicKeyToken="3da311118bed9c63" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=REDMOND\mikerou</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>yXGf9TCvwqoP2aZcY35i33B06CCjXi1aQ+p19Gp3XQ8=</DigestValue></Reference></SignedInfo><SignatureValue>PYIAnwY8dOYJnxF6BpW1p4cdUWw5cCWRJZoKRo1ZBaoN3wEE50hK0AsvVpHOXPTxVpn5qHqM2zl6c4coRtqINxaVG6vc8Pox9I+ynJl7UObUyN995M+bGNz76Wv4/EuBW5mmnQtOlcTc/9pip1K7ZL69ikaheOrG03QKEGGvzxA=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>tqbMm35LUyhYDIKo1VUsfzExq3IrF2TN3EPQqhM2KjBWYdmOhNKtw56x1cIXDYSwMbaTmIRh1VoOnoLILoAyJORYfqukfuA4qXvascXhhXgu3oXcapAJwKv/AWD3jQujxfHKLpgChBdZakNTFazhfU9U87MpgR/1KFTl22FT7CE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB7jCCAVegAwIBAgIQLz1yi2kNYptIgRp7ngBxUzANBgkqhkiG9w0BAQsFADApMScwJQYDVQQDHh4AUgBFAEQATQBPAE4ARABcAG0AaQBrAGUAcgBvAHUwHhcNMTkwMjEyMTgwNzA5WhcNMzkwMTAyMDAwMDAwWjApMScwJQYDVQQDHh4AUgBFAEQATQBPAE4ARABcAG0AaQBrAGUAcgBvAHUwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALamzJt+S1MoWAyCqNVVLH8xMatyKxdkzdxD0KoTNiowVmHZjoTSrcOesdXCFw2EsDG2k5iEYdVaDp6CyC6AMiTkWH6rpH7gOKl72rHF4YV4Lt6F3GqQCcCr/wFg940Lo8Xxyi6YAoQXWWpDUxWs4X1PVPOzKYEf9ShU5dthU+whAgMBAAGjFzAVMBMGA1UdJQQMMAoGCCsGAQUFBwMDMA0GCSqGSIb3DQEBCwUAA4GBAEm+dYAQRvawa5IBkOjAvrLN6y3jeYVb0auXU7dge1AaJXaO4rzSPjRf+iqyddAfo/V62OWecbY15WoUbPpHRHq9Mhgd1OWcTomcwFv8oURzTD859jXvPq4UzWwcTTclVuMDhTqBgr9hH1wlRtj2MF3qV8kRL8P33l/eArGwr85y</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

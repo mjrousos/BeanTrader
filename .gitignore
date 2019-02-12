@@ -2,3 +2,10 @@ obj/
 bin/
 .vs/
 packages/
+*.dll
+*.exe
+*.pdb
+
+# Ignore publish output other than our manifests and readme
+**/ClickOnceManifests/*/*
+!**/ClickOnceManifests/*/*.manifest
