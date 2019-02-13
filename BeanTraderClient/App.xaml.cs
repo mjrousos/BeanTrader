@@ -1,4 +1,6 @@
-﻿using MahApps.Metro;
+﻿using BeanTraderClient.DependencyInjection;
+using BeanTraderClient.Views;
+using MahApps.Metro;
 using System;
 using System.Configuration;
 using System.IO;
@@ -30,6 +32,8 @@ namespace BeanTraderClient
             ThemeManager.ChangeAppStyle(Application.Current,
                 ThemeManager.GetAccent(ConfigurationManager.AppSettings["DefaultTheme"]),
                 currentTheme);
+
+            Bootstrapper.Container.Resolve<MainWindow>().ShowDialog();
 
             base.OnStartup(e);
         }

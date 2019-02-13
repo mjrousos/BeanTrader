@@ -16,7 +16,7 @@ using System.Windows.Media;
 
 namespace BeanTraderClient.ViewModels
 {
-    public class TradingViewModel : INotifyPropertyChanged, IDisposable
+    public class TradingViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,7 +34,10 @@ namespace BeanTraderClient.ViewModels
         {
             this.dialogCoordinator = dialogCoordinator;
             statusClearTimer = new Timer(ClearStatus);
+        }
 
+        public void Load()
+        {
             // Get initial trader info and trade offers
             UpdateTraderInfo();
             ListenForTradeOffers();
@@ -45,7 +48,7 @@ namespace BeanTraderClient.ViewModels
             MainWindow.BeanTraderCallbackHandler.TradeAcceptedHandler += TradeAccepted;
         }
 
-        public void Dispose()
+        public void Unload()
         {
             // Stop listening
             Logout();
@@ -54,6 +57,10 @@ namespace BeanTraderClient.ViewModels
             MainWindow.BeanTraderCallbackHandler.AddNewTradeOfferHandler -= AddTradeOffer;
             MainWindow.BeanTraderCallbackHandler.RemoveTradeOfferHandler -= RemoveTraderOffer;
             MainWindow.BeanTraderCallbackHandler.TradeAcceptedHandler -= TradeAccepted;
+
+            // Clear model data
+            CurrentTrader = null;
+            TradeOffers = null;
         }
 
         public Trader CurrentTrader

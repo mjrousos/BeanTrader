@@ -13,24 +13,28 @@ namespace BeanTraderClient.Views
     /// </summary>
     public partial class TradingPage : Page
     {
-        public TradingViewModel Model { get; set; } = new TradingViewModel(DialogCoordinator.Instance);
+        public TradingViewModel Model { get; }
 
-        public TradingPage()
+        public TradingPage(TradingViewModel viewModel)
         {
             InitializeComponent();
+            Model = viewModel;
             this.DataContext = this.Model;
+        }
 
-            // Make sure that this page's model is cleaned up if
-            // the page is navigated away from or if the app closes
-            this.Unloaded += Unload;
+        private void Load(object sender, RoutedEventArgs e)
+        {
+            Model.Load();
+
+            // Make sure that this page's model is
+            // cleaned up if the app closes
             Application.Current.MainWindow.Closing += Unload;
         }
 
         private void Unload(object sender, EventArgs e)
         {
             Application.Current.MainWindow.Closing -= Unload;
-            Model?.Dispose();
-            Model = null;
+            Model.Unload();
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

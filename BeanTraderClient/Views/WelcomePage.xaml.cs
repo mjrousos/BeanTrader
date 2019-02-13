@@ -14,10 +14,12 @@ namespace BeanTraderClient.Views
     {
         private const string BeanTraderClientRegistryKey = @"Software\BeanTraderClient";
         private const string PreferredNameRegistryValueName = "PreferredUsername";
+        private readonly TradingPage tradingPage;
 
-        public WelcomePage()
+        public WelcomePage(TradingPage tradingPage)
         {
             InitializeComponent();
+            this.tradingPage = tradingPage;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -50,7 +52,7 @@ namespace BeanTraderClient.Views
         private void CompleteLogin(object sender, RunWorkerCompletedEventArgs e)
         {
             StartButton.IsEnabled = true;
-            NavigationService.Navigate(new TradingPage());
+            NavigationService.Navigate(tradingPage);
         }
 
         private string GetPreferredUserName()

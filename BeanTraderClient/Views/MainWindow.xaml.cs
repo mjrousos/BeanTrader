@@ -70,11 +70,11 @@ namespace BeanTraderClient.Views
 
         public static BeanTraderCallback BeanTraderCallbackHandler { get; set; } = new BeanTraderCallback();
 
-        public MainWindow()
+        public MainWindow(WelcomePage welcomePage)
         {
             InitializeComponent();
 
-            MainFrame.Navigate(new WelcomePage());
+            MainFrame.Navigate(welcomePage);
         }
     }
 }

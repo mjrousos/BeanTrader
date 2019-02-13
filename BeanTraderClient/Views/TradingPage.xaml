@@ -13,7 +13,9 @@
       Dialog:DialogParticipation.Register="{Binding}"
       d:DataContext="{x:Static localDesign:DesignTimeContexts.DesignTimeTradingViewModel}"
       Style="{StaticResource DefaultPageStyle}"
-      Title="TradingPage">
+      Title="TradingPage" 
+      Loaded="Load"
+      Unloaded="Unload">
     <Page.Resources>
         <DataTemplate DataType="{x:Type models:TradeOffer}">
             <controls:TradeOfferControl TradeOffer="{Binding}" TradingModel="{Binding ElementName=TradeOfferList, Path=DataContext}"/>
