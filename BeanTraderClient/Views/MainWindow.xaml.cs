@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using Microsoft.Azure.KeyVault;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System;
 using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
@@ -53,7 +54,8 @@ namespace BeanTraderClient.Views
         private static X509Certificate2 GetCertificate()
         {
             var keyVaultClient = new KeyVaultClient(GetAzureAccessToken);
-            return new X509Certificate2(keyVaultClient.GetCertificateAsync(ConfigurationManager.AppSettings["CertificateIdentifier"]).Result.Cer);
+            var cert = keyVaultClient.GetSecretAsync(ConfigurationManager.AppSettings["CertificateSecretIdentifier"]).Result.Value;
+            return new X509Certificate2(Convert.FromBase64String(cert));
         }
 
         private static async Task<string> GetAzureAccessToken(string authority, string resource, string scope)
