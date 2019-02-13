@@ -4,6 +4,7 @@ using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
@@ -46,7 +47,7 @@ namespace BeanTraderServer
             if (user == null)
             {
                 Log.Warning("Failed to return trade offers for session {SessionId} because no user is logged on", sessionId);
-                return null;
+                return Enumerable.Empty<TradeOffer>();
             }
 
             var callback = context.GetCallbackChannel<IBeanTraderCallback>();
@@ -245,7 +246,7 @@ namespace BeanTraderServer
             var userId = GetUserIdForContext(OperationContext.Current);
             return userId.HasValue ?
                 Traders.GetOrAdd(userId.Value, new Trader(userId.Value)) :
-                null;
+                Trader.Empty;
         }
 
         public void Login(string name)

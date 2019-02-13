@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeanTrader.Models
 {
@@ -11,6 +8,11 @@ namespace BeanTrader.Models
     public class Trader
     {
         static int[] DefaultBeans = new[] { 100, 50, 10, 1 };
+
+        public static Trader Empty = new Trader(Guid.Empty, string.Empty)
+        {
+            Inventory = new int[Enum.GetValues(typeof(Beans)).Cast<int>().Max() + 1]
+        };
 
         public Trader(): this(Guid.NewGuid()) { }
 
