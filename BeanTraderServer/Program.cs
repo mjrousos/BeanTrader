@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceModel.Security;
@@ -15,7 +16,8 @@ namespace BeanTraderServer
             using (var host = new ServiceHost(typeof(BeanTrader)))
             {
                 // For demo purposes, just load the key from disk so that no one needs to install an untrustworthy self-signed key
-                host.Credentials.ServiceCertificate.Certificate = new X509Certificate2("BeanTrader.pfx", "password");
+                var certPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "BeanTrader.pfx");
+                host.Credentials.ServiceCertificate.Certificate = new X509Certificate2(certPath, "password");
                 host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
                 host.Open();
                 Log.Information("Bean Trader Service listening");
