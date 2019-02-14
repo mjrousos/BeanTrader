@@ -188,8 +188,8 @@ namespace BeanTraderClient.ViewModels
             return TradingService.ListenForTradeOffersAsync()
                 .ContinueWith(async offersTask =>
                 {
-                    var tradeOffers = await offersTask;
-                    var sellerIds = tradeOffers.Select(t => t.SellerId);
+                    var tradeOffers = await offersTask ?? new TradeOffer[0];
+                    var sellerIds = tradeOffers?.Select(t => t.SellerId);
                     traderNames = new ConcurrentDictionary<Guid, string>(await TradingService.GetTraderNamesAsync(sellerIds.ToArray()));
                     TradeOffers = new ObservableCollection<TradeOffer>(tradeOffers);
                 });
