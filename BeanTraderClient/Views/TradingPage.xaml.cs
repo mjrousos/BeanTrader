@@ -1,7 +1,6 @@
 ﻿using BeanTraderClient.ViewModels;
-using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -22,19 +21,27 @@ namespace BeanTraderClient.Views
             this.DataContext = this.Model;
         }
 
-        private void Load(object sender, RoutedEventArgs e)
+        private async void Load(object sender, RoutedEventArgs e)
         {
-            Model.Load();
-
             // Make sure that this page's model is
             // cleaned up if the app closes
             Application.Current.MainWindow.Closing += Unload;
+
+            await Model.LoadAsync();
         }
 
-        private void Unload(object sender, EventArgs e)
+        private async void Unload(object sender, EventArgs e)
         {
             Application.Current.MainWindow.Closing -= Unload;
-            Model.Unload();
+
+            // In the case of the app closing, it's possible that 
+            // UnloadAsync won't have a chance to finish.
+            // I think it's better to preserve the 'fast exit' user
+            // experience and just harden the backend against possible
+            // abandoned sessions.
+            // The alternative would be to wrap this in Task.Run and wait
+            // for it to finish.
+            await Model.UnloadAsync();
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

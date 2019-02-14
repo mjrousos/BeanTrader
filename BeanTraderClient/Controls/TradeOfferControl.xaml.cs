@@ -12,12 +12,15 @@ namespace BeanTraderClient.Controls
     public partial class TradeOfferControl : UserControl
     {
         public static readonly DependencyProperty TradeOfferProperty =
-            DependencyProperty.Register("TradeOffer", typeof(TradeOffer), typeof(TradeOfferControl), new PropertyMetadata(new PropertyChangedCallback(UpdateDictionaries)));
+            DependencyProperty.Register("TradeOffer", typeof(TradeOffer), typeof(TradeOfferControl), new PropertyMetadata(new PropertyChangedCallback(UpdateTradeOffer)));
 
         public static readonly DependencyProperty TradingModelProperty =
             DependencyProperty.Register("TradingModel", typeof(TradingViewModel), typeof(TradeOfferControl));
 
-        private static void UpdateDictionaries(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty SellerNameProperty =
+            DependencyProperty.Register("SellerName", typeof(string), typeof(TradeOfferControl));
+
+        private static async void UpdateTradeOffer(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Update these on TradeOffer so that the BeanDictionaries are available for
             // data binding without having to construct them each time they're needed
@@ -25,6 +28,23 @@ namespace BeanTraderClient.Controls
             {
                 control.Offering = new BeanDictionary(newTradeOffer.Offering);
                 control.Asking = new BeanDictionary(newTradeOffer.Asking);
+
+                // Temporary name while looking up the friendly name
+                control.SellerName = newTradeOffer.SellerId.ToString();
+                if (control.TradingModel != null)
+                {
+                    control.SellerName = await control.TradingModel.GetTraderNameAsync(newTradeOffer.SellerId);
+                }
+            }
+        }
+
+
+        private async void TradeOfferControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            // If the seller name hasn't been loaded yet, look it up
+            if (TradeOffer?.SellerId.ToString() == SellerName && TradingModel != null)
+            {
+                SellerName = await TradingModel.GetTraderNameAsync(TradeOffer.SellerId);
             }
         }
 
@@ -40,7 +60,13 @@ namespace BeanTraderClient.Controls
             get => (TradingViewModel)GetValue(TradingModelProperty);
             set => SetValue(TradingModelProperty, value);
         }
-        
+
+        public string SellerName
+        {
+            get => (string)GetValue(SellerNameProperty);
+            set => SetValue(SellerNameProperty, value);
+        }
+
         public BeanDictionary Offering { get; private set; }
 
         public BeanDictionary Asking { get; private set; }
@@ -49,10 +75,6 @@ namespace BeanTraderClient.Controls
             TradeOffer?.SellerId == TradingModel?.CurrentTrader.Id ?
             StringResources.CancelTradeDescription :
             StringResources.AcceptTradeDescription;
-
-        public string SellerName => (TradingModel == null) ? 
-            TradeOffer.SellerId.ToString() : 
-            (TradingModel.GetTraderName(TradeOffer.SellerId) ?? TradeOffer.SellerId.ToString());
 
         public TradeOfferControl()
         {

@@ -45,8 +45,7 @@ namespace BeanTraderClient.Views
 
         private void Login(object sender, DoWorkEventArgs e)
         {
-            MainWindow.CurrentUsername = e.Argument as string;
-            MainWindow.BeanTrader.Login(MainWindow.CurrentUsername);
+            tradingPage.Model.UserName = e.Argument as string;
         }
 
         private void CompleteLogin(object sender, RunWorkerCompletedEventArgs e)

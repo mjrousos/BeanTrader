@@ -9,7 +9,7 @@ namespace BeanTraderClient.DesignTimeData
     public static class DesignTimeContexts
     {
         public static TradingViewModel DesignTimeTradingViewModel =>
-            new TradingViewModel(null)
+            new TradingViewModel(null, null, null)
             {
                 CurrentTrader = new Trader
                 {

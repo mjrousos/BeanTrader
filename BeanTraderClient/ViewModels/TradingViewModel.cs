@@ -1,7 +1,7 @@
 ﻿using BeanTrader.Models;
 using BeanTraderClient.Controls;
 using BeanTraderClient.Resources;
-using BeanTraderClient.Views;
+using BeanTraderClient.Services;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Concurrent;
@@ -23,40 +23,48 @@ namespace BeanTraderClient.ViewModels
         private Trader trader;
         private string statusText;
         private Brush statusBrush;
+        private string userName;
         private IList<TradeOffer> tradeOffers;
-        private readonly IDialogCoordinator dialogCoordinator;
-        private readonly Timer statusClearTimer;
+
+        private IDialogCoordinator DialogCoordinator { get; }
+        private TradingService TradingService { get; }
+        private BeanTraderCallback CallbackHandler { get; }
+        private Timer StatusClearTimer { get; }
 
         // Initialized by ListenForTradeOffers, this field caches trader names (indexed by ID)
         private ConcurrentDictionary<Guid, string> traderNames;
 
-        public TradingViewModel(IDialogCoordinator dialogCoordinator)
+        public TradingViewModel(IDialogCoordinator dialogCoordinator, TradingService tradingService, BeanTraderCallback callbackHandler)
         {
-            this.dialogCoordinator = dialogCoordinator;
-            statusClearTimer = new Timer(ClearStatus);
+            DialogCoordinator = dialogCoordinator;
+            TradingService = tradingService;
+            CallbackHandler = callbackHandler;
+            StatusClearTimer = new Timer(ClearStatus);
         }
 
-        public void Load()
+        public async Task LoadAsync()
         {
+            TradingService.Connected += LoadDataAsync;
+
             // Get initial trader info and trade offers
-            UpdateTraderInfo();
-            ListenForTradeOffers();
+            await LoadDataAsync();
 
             // Register for service callbacks
-            MainWindow.BeanTraderCallbackHandler.AddNewTradeOfferHandler += AddTradeOffer;
-            MainWindow.BeanTraderCallbackHandler.RemoveTradeOfferHandler += RemoveTraderOffer;
-            MainWindow.BeanTraderCallbackHandler.TradeAcceptedHandler += TradeAccepted;
+            CallbackHandler.AddNewTradeOfferHandler += AddTradeOffer;
+            CallbackHandler.RemoveTradeOfferHandler += RemoveTraderOffer;
+            CallbackHandler.TradeAcceptedHandler += TradeAccepted;
         }
 
-        public void Unload()
+        public async Task UnloadAsync()
         {
             // Stop listening
-            Logout();
+            await TradingService.StopListeningAsync();
+            await TradingService.LogoutAsync();
 
             // Unregister for service callbacks
-            MainWindow.BeanTraderCallbackHandler.AddNewTradeOfferHandler -= AddTradeOffer;
-            MainWindow.BeanTraderCallbackHandler.RemoveTradeOfferHandler -= RemoveTraderOffer;
-            MainWindow.BeanTraderCallbackHandler.TradeAcceptedHandler -= TradeAccepted;
+            CallbackHandler.AddNewTradeOfferHandler -= AddTradeOffer;
+            CallbackHandler.RemoveTradeOfferHandler -= RemoveTraderOffer;
+            CallbackHandler.TradeAcceptedHandler -= TradeAccepted;
 
             // Clear model data
             CurrentTrader = null;
@@ -90,19 +98,19 @@ namespace BeanTraderClient.ViewModels
                 }
             }
         }
-
-        public string GetTraderName(Guid sellerId)
+        
+        public async Task<string> GetTraderNameAsync(Guid sellerId)
         {
-            if (!traderNames.TryGetValue(sellerId, out string sellerName))
+            if (!traderNames.TryGetValue(sellerId, out string traderName))
             {
-                var names = MainWindow.BeanTrader.GetTraderNames(new Guid[] { sellerId });
+                var names = await TradingService.GetTraderNamesAsync(new Guid[] { sellerId });
 
-                sellerName = names.ContainsKey(sellerId) ?
+                traderName = names.ContainsKey(sellerId) ?
                     traderNames.AddOrUpdate(sellerId, names[sellerId], (g, s) => names[sellerId]) :
                     null;
             }
 
-            return sellerName;
+            return traderName;
         }
 
         public Brush StatusBrush
@@ -128,7 +136,16 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
-        public string UserName => CurrentTrader?.Name;
+        public string UserName
+        {
+            get => userName;
+            set
+            {
+                userName = value;
+                OnPropertyChanged(nameof(UserName));
+            }
+        }
+        
         public int[] Inventory => CurrentTrader?.Inventory ?? new int[4];
 
         public string WelcomeMessage =>
@@ -145,30 +162,37 @@ namespace BeanTraderClient.ViewModels
         {
             // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
             // how such calls can be ported to .NET Core.
-            Func<Trader> userInfoRetriever = MainWindow.BeanTrader.GetCurrentTraderInfo;
+            Func<Task<Trader>> userInfoRetriever = TradingService.GetCurrentTraderInfoAsync;
             userInfoRetriever.BeginInvoke(result =>
             {
-                CurrentTrader = userInfoRetriever.EndInvoke(result);
+                var task = userInfoRetriever.EndInvoke(result).ConfigureAwait(false);
+                CurrentTrader = task.GetAwaiter().GetResult();
             }, null);
         }
 
-        private void ListenForTradeOffers()
+        private async Task LoadDataAsync()
         {
-            // Different async pattern just for demonstration's sake
-            MainWindow.BeanTrader.ListenForTradeOffersAsync()
-                .ContinueWith(offersTask =>
-                {
-                    var tradeOffers = offersTask.Result;
-                    var sellerIds = tradeOffers.Select(t => t.SellerId);
-                    traderNames = new ConcurrentDictionary<Guid, string>(MainWindow.BeanTrader.GetTraderNames(sellerIds.ToArray()));
-                    TradeOffers = new ObservableCollection<TradeOffer>(tradeOffers);
-                });
+            await LoginAsync();
+            UpdateTraderInfo();
+            await ListenForTradeOffersAsync();
         }
 
-        private void Logout()
+        private Task LoginAsync()
         {
-            MainWindow.BeanTrader.StopListening();
-            MainWindow.BeanTrader.Logout();
+            return TradingService.LoginAsync(UserName);
+        }
+
+        private Task ListenForTradeOffersAsync()
+        {
+            // Different async pattern just for demonstration's sake
+            return TradingService.ListenForTradeOffersAsync()
+                .ContinueWith(async offersTask =>
+                {
+                    var tradeOffers = await offersTask;
+                    var sellerIds = tradeOffers.Select(t => t.SellerId);
+                    traderNames = new ConcurrentDictionary<Guid, string>(await TradingService.GetTraderNamesAsync(sellerIds.ToArray()));
+                    TradeOffers = new ObservableCollection<TradeOffer>(tradeOffers);
+                });
         }
 
         private void RemoveTraderOffer(Guid offerId)
@@ -192,9 +216,9 @@ namespace BeanTraderClient.ViewModels
         {
             if (offer.SellerId == CurrentTrader.Id)
             {
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
-                    SetStatus($"Trade ({offer}) accepted by {GetTraderName(buyerId) ?? buyerId.ToString()}");
+                    SetStatus($"Trade ({offer}) accepted by {await GetTraderNameAsync(buyerId) ?? buyerId.ToString()}");
                     UpdateTraderInfo();
                 });
             }
@@ -204,15 +228,12 @@ namespace BeanTraderClient.ViewModels
         {
             var ownTrade = tradeOffer.SellerId == CurrentTrader.Id;
             var success = ownTrade ?
-                await MainWindow.BeanTrader?.CancelTradeOfferAsync(tradeOffer.Id) :
-                await MainWindow.BeanTrader?.AcceptTradeAsync(tradeOffer.Id);
+                await TradingService.CancelTradeOfferAsync(tradeOffer.Id) :
+                await TradingService.AcceptTradeAsync(tradeOffer.Id);
 
             if (success)
             {
                 SetStatus($"{(ownTrade ? "Canceled" : "Accepted")} trade ({tradeOffer})");
-
-                // Remove the trade from the list and update trader inventory
-                //RemoveTraderOffer(tradeOffer.Id);
                 UpdateTraderInfo();
             }
             else
@@ -232,7 +253,7 @@ namespace BeanTraderClient.ViewModels
                 Style = Application.Current.FindResource("DefaultControlStyle") as Style
             };
 
-            var newTradeOfferViewModel = new NewTradeOfferViewModel(() => dialogCoordinator.HideMetroDialogAsync(this, newTradeDialog));
+            var newTradeOfferViewModel = new NewTradeOfferViewModel(() => DialogCoordinator.HideMetroDialogAsync(this, newTradeDialog));
             newTradeOfferViewModel.CreateTradeHandler += CreateTradeOfferAsync;
 
             newTradeDialog.Content = new NewTradeOfferControl
@@ -240,12 +261,12 @@ namespace BeanTraderClient.ViewModels
                 DataContext = newTradeOfferViewModel
             };
 
-            await dialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog);
+            await DialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog);
         }
 
         private async Task CreateTradeOfferAsync(TradeOffer tradeOffer)
         {
-            if (await MainWindow.BeanTrader.OfferTradeAsync(tradeOffer) != Guid.Empty)
+            if (await TradingService.OfferTradeAsync(tradeOffer) != Guid.Empty)
             {
                 SetStatus("New trade offer created");
             }
@@ -268,7 +289,7 @@ namespace BeanTraderClient.ViewModels
 
         private void ResetStatusClearTimer(int dueTime = 5000)
         {
-            statusClearTimer.Change(dueTime, Timeout.Infinite);
+            StatusClearTimer.Change(dueTime, Timeout.Infinite);
         }
 
         private void ClearStatus(object _)

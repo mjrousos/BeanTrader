@@ -19,7 +19,7 @@ namespace BeanTraderClient.ViewModels
             this.closeDialogFunc = closeDialogFunc;
         }
 
-        public async Task CreateTradeOffer()
+        public async Task CreateTradeOfferAsync()
         {
             await closeDialogFunc();
 
@@ -30,7 +30,7 @@ namespace BeanTraderClient.ViewModels
             });
         }
 
-        public async Task CancelTradeOffer()
+        public async Task CancelTradeOfferAsync()
         {
             await closeDialogFunc();
         }
