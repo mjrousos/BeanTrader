@@ -284,7 +284,7 @@ namespace BeanTraderServer
             var currentUser = GetCurrentTraderInfo();
             var ret = new Dictionary<Guid, string>();
 
-            foreach (var traderId in traderIds)
+            foreach (var traderId in traderIds.Distinct())
             {
                 if (Traders.TryGetValue(traderId, out Trader trader))
                 {
