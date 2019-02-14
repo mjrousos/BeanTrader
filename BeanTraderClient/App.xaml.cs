@@ -33,7 +33,7 @@ namespace BeanTraderClient
                 ThemeManager.GetAccent(ConfigurationManager.AppSettings["DefaultTheme"]),
                 currentTheme);
 
-            Bootstrapper.Container.Resolve<MainWindow>().ShowDialog();
+            Bootstrapper.Container.Resolve<MainWindow>().Show();
 
             base.OnStartup(e);
         }
