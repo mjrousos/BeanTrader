@@ -11,7 +11,9 @@ using System.Windows.Data;
 namespace BeanTraderClient.Converters
 {
     // Converts positive uints to Visible and 0 or invalid values to Collapsed
+#pragma warning disable CA1812 // Unused internal class
     class UIntToVisibleOnNonZeroConverter : IValueConverter
+#pragma warning restore CA1812 // Unused internal class
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

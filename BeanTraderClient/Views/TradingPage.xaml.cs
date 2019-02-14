@@ -27,7 +27,7 @@ namespace BeanTraderClient.Views
             // cleaned up if the app closes
             Application.Current.MainWindow.Closing += Unload;
 
-            await Model.LoadAsync();
+            await Model.LoadAsync().ConfigureAwait(false);
         }
 
         private async void Unload(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace BeanTraderClient.Views
             // abandoned sessions.
             // The alternative would be to wrap this in Task.Run and wait
             // for it to finish.
-            await Model.UnloadAsync();
+            await Model.UnloadAsync().ConfigureAwait(false);
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ namespace BeanTraderClient.Views
         
         private async void NewTradeButton_Click(object sender, RoutedEventArgs e)
         {
-            await Model.ShowNewTradeOfferDialog();
+            await Model.ShowNewTradeOfferDialog().ConfigureAwait(false);
         }
     }
 }

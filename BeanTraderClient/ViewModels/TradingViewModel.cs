@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +41,7 @@ namespace BeanTraderClient.ViewModels
             TradingService = tradingService;
             CallbackHandler = callbackHandler;
             StatusClearTimer = new Timer(ClearStatus);
+            traderNames = new ConcurrentDictionary<Guid, string>();
         }
 
         public async Task LoadAsync()
@@ -47,7 +49,7 @@ namespace BeanTraderClient.ViewModels
             TradingService.Connected += LoadDataAsync;
 
             // Get initial trader info and trade offers
-            await LoadDataAsync();
+            await LoadDataAsync().ConfigureAwait(false);
 
             // Register for service callbacks
             CallbackHandler.AddNewTradeOfferHandler += AddTradeOffer;
@@ -58,8 +60,8 @@ namespace BeanTraderClient.ViewModels
         public async Task UnloadAsync()
         {
             // Stop listening
-            await TradingService.StopListeningAsync();
-            await TradingService.LogoutAsync();
+            await TradingService.StopListeningAsync().ConfigureAwait(false);
+            await TradingService.LogoutAsync().ConfigureAwait(false);
 
             // Unregister for service callbacks
             CallbackHandler.AddNewTradeOfferHandler -= AddTradeOffer;
@@ -101,9 +103,15 @@ namespace BeanTraderClient.ViewModels
         
         public async Task<string> GetTraderNameAsync(Guid sellerId)
         {
+            // Until we add a design-time trading service mock, just bail out on null TradingService
+            if (TradingService == null)
+            {
+                return sellerId.ToString();
+            }
+
             if (!traderNames.TryGetValue(sellerId, out string traderName))
             {
-                var names = await TradingService.GetTraderNamesAsync(new Guid[] { sellerId });
+                var names = await TradingService.GetTraderNamesAsync(new Guid[] { sellerId }).ConfigureAwait(false);
 
                 traderName = names.ContainsKey(sellerId) ?
                     traderNames.AddOrUpdate(sellerId, names[sellerId], (g, s) => names[sellerId]) :
@@ -126,7 +134,9 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
+#pragma warning disable CA2227 // Collection properties should be read only
         public IList<TradeOffer> TradeOffers
+#pragma warning restore CA2227 // Collection properties should be read only
         {
             get => tradeOffers;
             set
@@ -146,12 +156,12 @@ namespace BeanTraderClient.ViewModels
             }
         }
         
-        public int[] Inventory => CurrentTrader?.Inventory ?? new int[4];
+        public IEnumerable<int> Inventory => CurrentTrader?.Inventory ?? new int[4];
 
         public string WelcomeMessage =>
             string.IsNullOrEmpty(UserName) ?
             StringResources.DefaultGreeting :
-            string.Format(StringResources.Greeting, UserName);
+            string.Format(CultureInfo.CurrentCulture, StringResources.Greeting, UserName);
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -172,9 +182,9 @@ namespace BeanTraderClient.ViewModels
 
         private async Task LoadDataAsync()
         {
-            await LoginAsync();
+            await LoginAsync().ConfigureAwait(false);
             UpdateTraderInfo();
-            await ListenForTradeOffersAsync();
+            await ListenForTradeOffersAsync().ConfigureAwait(false);
         }
 
         private Task LoginAsync()
@@ -188,11 +198,11 @@ namespace BeanTraderClient.ViewModels
             return TradingService.ListenForTradeOffersAsync()
                 .ContinueWith(async offersTask =>
                 {
-                    var tradeOffers = await offersTask ?? new TradeOffer[0];
+                    var tradeOffers = await offersTask ?? Array.Empty<TradeOffer>();
                     var sellerIds = tradeOffers?.Select(t => t.SellerId);
                     traderNames = new ConcurrentDictionary<Guid, string>(await TradingService.GetTraderNamesAsync(sellerIds.ToArray()));
                     TradeOffers = new ObservableCollection<TradeOffer>(tradeOffers);
-                });
+                }, CancellationToken.None, TaskContinuationOptions.NotOnFaulted, TaskScheduler.Default);
         }
 
         private void RemoveTraderOffer(Guid offerId)
@@ -200,7 +210,7 @@ namespace BeanTraderClient.ViewModels
             var offer = tradeOffers.SingleOrDefault(o => o.Id == offerId);
             if (offer != null)
             {
-                Application.Current.Dispatcher.Invoke(() =>TradeOffers.Remove(offer));
+                Application.Current.Dispatcher.Invoke(() => TradeOffers.Remove(offer));
             }
         }
 
@@ -228,8 +238,8 @@ namespace BeanTraderClient.ViewModels
         {
             var ownTrade = tradeOffer.SellerId == CurrentTrader.Id;
             var success = ownTrade ?
-                await TradingService.CancelTradeOfferAsync(tradeOffer.Id) :
-                await TradingService.AcceptTradeAsync(tradeOffer.Id);
+                await TradingService.CancelTradeOfferAsync(tradeOffer.Id).ConfigureAwait(false) :
+                await TradingService.AcceptTradeAsync(tradeOffer.Id).ConfigureAwait(false);
 
             if (success)
             {
@@ -261,12 +271,12 @@ namespace BeanTraderClient.ViewModels
                 DataContext = newTradeOfferViewModel
             };
 
-            await DialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog);
+            await DialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog).ConfigureAwait(false);
         }
 
         private async Task CreateTradeOfferAsync(TradeOffer tradeOffer)
         {
-            if (await TradingService.OfferTradeAsync(tradeOffer) != Guid.Empty)
+            if (await TradingService.OfferTradeAsync(tradeOffer).ConfigureAwait(false) != Guid.Empty)
             {
                 SetStatus("New trade offer created");
             }

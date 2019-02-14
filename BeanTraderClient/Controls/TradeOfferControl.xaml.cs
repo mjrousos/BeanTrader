@@ -33,7 +33,7 @@ namespace BeanTraderClient.Controls
                 control.SellerName = newTradeOffer.SellerId.ToString();
                 if (control.TradingModel != null)
                 {
-                    control.SellerName = await control.TradingModel.GetTraderNameAsync(newTradeOffer.SellerId);
+                    control.SellerName = await control.TradingModel.GetTraderNameAsync(newTradeOffer.SellerId).ConfigureAwait(true);
                 }
             }
         }
@@ -41,10 +41,12 @@ namespace BeanTraderClient.Controls
 
         private async void TradeOfferControl_Loaded(object sender, RoutedEventArgs e)
         {
+            var sellerId = TradeOffer?.SellerId.ToString();
+
             // If the seller name hasn't been loaded yet, look it up
-            if (TradeOffer?.SellerId.ToString() == SellerName && TradingModel != null)
+            if (sellerId != null && sellerId == SellerName && TradingModel != null)
             {
-                SellerName = await TradingModel.GetTraderNameAsync(TradeOffer.SellerId);
+                SellerName = await TradingModel.GetTraderNameAsync(TradeOffer.SellerId).ConfigureAwait(true);
             }
         }
 
@@ -89,7 +91,7 @@ namespace BeanTraderClient.Controls
         private async void CompleteTradeButton_Click(object sender, RoutedEventArgs e)
         {
             CompleteTradeButton.IsEnabled = false;
-            if (!await TradingModel?.CompleteTrade(TradeOffer))
+            if (!await (TradingModel?.CompleteTrade(TradeOffer)).ConfigureAwait(true))
             {
                 CompleteTradeButton.IsEnabled = true;
             }            

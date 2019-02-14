@@ -3,7 +3,7 @@ using Castle.Windsor.Installer;
 
 namespace BeanTraderClient.DependencyInjection
 {
-    public class Bootstrapper
+    public static class Bootstrapper
     {
         private static IWindsorContainer container;
         private static object syncRoot = new object();

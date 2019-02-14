@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BeanTraderClient.Services
 {
-    public class TradingService : IDisposable
+    public sealed class TradingService : IDisposable
     {
         private readonly AsyncLock clientSyncLock = new AsyncLock();
         private BeanTraderServiceClient client;
@@ -32,7 +32,7 @@ namespace BeanTraderClient.Services
                     if (client == null || client.State == CommunicationState.Closed || client.State == CommunicationState.Faulted)
                     {
                         var newClient = ClientFactory.GetServiceClient();
-                        await SetClientCredentialsAsync(newClient);
+                        await SetClientCredentialsAsync(newClient).ConfigureAwait(false);
                         newClient.Open();
                         client = newClient;
                     }
@@ -123,13 +123,13 @@ namespace BeanTraderClient.Services
 
         private async Task CheckForHeartbeatAsync(CancellationToken ct)
         {
-            var emptyInput = new Guid[0];
+            var emptyInput = Array.Empty<Guid>();
             while (!ct.IsCancellationRequested)
             {
                 try
                 {
-                    await GetTraderNamesAsync(emptyInput);
-                    await Task.Delay(5000, ct);
+                    await GetTraderNamesAsync(emptyInput).ConfigureAwait(false);
+                    await Task.Delay(5000, ct).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException) { }
             }
@@ -139,7 +139,7 @@ namespace BeanTraderClient.Services
         {
             try
             {
-                return await action();
+                return await action().ConfigureAwait(false);
             }
             catch (CommunicationException)
             {
@@ -153,7 +153,7 @@ namespace BeanTraderClient.Services
         {
             try
             {
-                await action();
+                await action().ConfigureAwait(false);
             }
             catch (CommunicationException)
             {
@@ -162,16 +162,16 @@ namespace BeanTraderClient.Services
             }
         }
 
-        private async Task SetClientCredentialsAsync(BeanTraderServiceClient client)
+        private static async Task SetClientCredentialsAsync(BeanTraderServiceClient client)
         {
-            client.ClientCredentials.ClientCertificate.Certificate = await GetCertificateAsync();
+            client.ClientCredentials.ClientCertificate.Certificate = await GetCertificateAsync().ConfigureAwait(false);
             client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
         }
 
         private static async Task<X509Certificate2> GetCertificateAsync()
         {
             var keyVaultClient = new KeyVaultClient(GetAzureAccessTokenAsync);
-            var secretBundle = await keyVaultClient.GetSecretAsync(ConfigurationManager.AppSettings["CertificateSecretIdentifier"]);
+            var secretBundle = await keyVaultClient.GetSecretAsync(ConfigurationManager.AppSettings["CertificateSecretIdentifier"]).ConfigureAwait(false);
             return new X509Certificate2(Convert.FromBase64String(secretBundle.Value));
         }
 
@@ -180,7 +180,7 @@ namespace BeanTraderClient.Services
             var appCredentials = new ClientCredential(ConfigurationManager.AppSettings["AzureAppId"], ConfigurationManager.AppSettings["AzureAppPassword"]);
             var context = new AuthenticationContext(authority, TokenCache.DefaultShared);
 
-            var result = await context.AcquireTokenAsync(resource, appCredentials);
+            var result = await context.AcquireTokenAsync(resource, appCredentials).ConfigureAwait(false);
 
             return result.AccessToken;
         }

@@ -18,8 +18,8 @@ namespace BeanTraderClient.Controls
             InitializeComponent();
         }
 
-        private async void CancelButton_Click(object sender, RoutedEventArgs e) => await Model.CancelTradeOfferAsync();
-        private async void CreateButton_Click(object sender, RoutedEventArgs e) => await Model.CreateTradeOfferAsync();
+        private async void CancelButton_Click(object sender, RoutedEventArgs e) => await Model.CancelTradeOfferAsync().ConfigureAwait(false);
+        private async void CreateButton_Click(object sender, RoutedEventArgs e) => await Model.CreateTradeOfferAsync().ConfigureAwait(false);
 
         // Select text in the bean count text boxes so that users can easily replace the initial '0'
         private void BeanTextBox_GotFocus(object sender, EventArgs e)

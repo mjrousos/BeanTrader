@@ -8,11 +8,9 @@ namespace BeanTraderClient.ViewModels
     {
         private readonly Func<Task> closeDialogFunc;
 
-        public BeanDictionary BeansOffered { get; set; } = new BeanDictionary();
-        public BeanDictionary BeansAsked { get; set; } = new BeanDictionary();
+        public BeanDictionary BeansOffered { get; } = new BeanDictionary();
+        public BeanDictionary BeansAsked { get; } = new BeanDictionary();
         public event Func<TradeOffer, Task> CreateTradeHandler;
-
-        public bool? NewOfferAdded = null;
 
         public NewTradeOfferViewModel(Func<Task> closeDialogFunc)
         {
@@ -21,18 +19,18 @@ namespace BeanTraderClient.ViewModels
 
         public async Task CreateTradeOfferAsync()
         {
-            await closeDialogFunc();
+            await closeDialogFunc().ConfigureAwait(false);
 
-            await CreateTradeHandler?.Invoke(new TradeOffer
+            await (CreateTradeHandler?.Invoke(new TradeOffer
             {
                 Asking = BeansAsked,
                 Offering = BeansOffered
-            });
+            })).ConfigureAwait(false);
         }
 
         public async Task CancelTradeOfferAsync()
         {
-            await closeDialogFunc();
+            await closeDialogFunc().ConfigureAwait(false);
         }
     }
 }
