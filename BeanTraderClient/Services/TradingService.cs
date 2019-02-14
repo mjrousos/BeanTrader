@@ -129,7 +129,7 @@ namespace BeanTraderClient.Services
                 try
                 {
                     await GetTraderNamesAsync(emptyInput);
-                    await Task.Delay(2000, ct);
+                    await Task.Delay(5000, ct);
                 }
                 catch (OperationCanceledException) { }
             }
