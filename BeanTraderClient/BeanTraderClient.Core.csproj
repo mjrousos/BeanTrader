@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Compile Remove="out\BeanTraderClient\**\*.cs" />
+    <Compile Remove="ViewModels\OldUnusedViewModel.cs" />
     
     <Resource Include="BeanTrader.ico" />
     <Resource Include="**\*.png" />
