@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.Configuration;
+using System.ServiceModel;
 
 namespace BeanTraderClient.DependencyInjection
 {
@@ -11,6 +13,14 @@ namespace BeanTraderClient.DependencyInjection
             CallbackHandler = callbackHandler;
         }
 
-        public BeanTraderServiceClient GetServiceClient() => new BeanTraderServiceClient(new InstanceContext(CallbackHandler));
+        public BeanTraderServiceClient GetServiceClient()
+        {
+            var binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+            var endpointAddress = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["BeanTraderEndpointAddress"]), new DnsEndpointIdentity("BeanTrader"));
+
+            return new BeanTraderServiceClient(new InstanceContext(CallbackHandler), binding, endpointAddress);
+        }
     }
 }
