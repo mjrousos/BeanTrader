@@ -18,7 +18,7 @@
     <Resource Include="BeanTrader.ico" />
     <Resource Include="**\*.png" />
 
-    <Page Remove="Resources\Themes\Default.Accent.xaml" />
+    <Page Remove="**\Default.Accent.xaml" />
     <Content Include="Resources\Themes\Default.Accent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
