@@ -12,6 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="out\BeanTraderClient\**\*.cs" />
+    
     <Resource Include="BeanTrader.ico" />
     <Resource Include="**\*.png" />
 
