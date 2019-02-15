@@ -18,7 +18,7 @@ namespace BeanTraderClient.DependencyInjection
                     {
                         if (container == null)
                         {
-                            container = new WindsorContainer().Install(FromAssembly.This());
+                            container = new WindsorContainer().Install(FromAssembly.Containing(typeof(Bootstrapper)));
                         }
                     }
                 }
