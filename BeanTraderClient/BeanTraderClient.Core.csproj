@@ -31,7 +31,7 @@
       <Version>4.1.1</Version>
     </PackageReference>
     <PackageReference Include="MahApps.Metro">
-      <Version>2.0.0-alpha0212</Version>
+      <Version>1.6.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Common">
       <Version>2.2.1</Version>
