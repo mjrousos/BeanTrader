@@ -4,6 +4,23 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <RootNamespace>BeanTraderClient</RootNamespace>
+    <AssemblyName>BeanTraderClient</AssemblyName>
+    <DefineConstants>NETCORE</DefineConstants>
+    <ApplicationIcon>BeanTrader.ico</ApplicationIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="BeanTrader.ico" />
+    <Resource Include="**\*.png" />
+
+    <Page Remove="Resources\Themes\Default.Accent.xaml" />
+    <Content Include="Resources\Themes\Default.Accent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
