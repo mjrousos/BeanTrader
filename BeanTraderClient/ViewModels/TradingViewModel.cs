@@ -168,22 +168,15 @@ namespace BeanTraderClient.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void UpdateTraderInfo()
+        private async Task UpdateTraderInfoAsync()
         {
-            // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
-            // how such calls can be ported to .NET Core.
-            Func<Task<Trader>> userInfoRetriever = TradingService.GetCurrentTraderInfoAsync;
-            userInfoRetriever.BeginInvoke(result =>
-            {
-                var task = userInfoRetriever.EndInvoke(result).ConfigureAwait(false);
-                CurrentTrader = task.GetAwaiter().GetResult();
-            }, null);
+            CurrentTrader = await TradingService.GetCurrentTraderInfoAsync().ConfigureAwait(false);
         }
 
         private async Task LoadDataAsync()
         {
             await LoginAsync().ConfigureAwait(false);
-            UpdateTraderInfo();
+            await UpdateTraderInfoAsync().ConfigureAwait(false);
             await ListenForTradeOffersAsync().ConfigureAwait(false);
         }
 
@@ -222,15 +215,12 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
-        private void TradeAccepted(TradeOffer offer, Guid buyerId)
+        private async void TradeAccepted(TradeOffer offer, Guid buyerId)
         {
             if (offer.SellerId == CurrentTrader.Id)
             {
-                Task.Run(async () =>
-                {
-                    SetStatus($"Trade ({offer}) accepted by {await GetTraderNameAsync(buyerId) ?? buyerId.ToString()}");
-                    UpdateTraderInfo();
-                });
+                SetStatus($"Trade ({offer}) accepted by {await GetTraderNameAsync(buyerId).ConfigureAwait(false) ?? buyerId.ToString()}");
+                await UpdateTraderInfoAsync().ConfigureAwait(false);
             }
         }
 
@@ -244,7 +234,7 @@ namespace BeanTraderClient.ViewModels
             if (success)
             {
                 SetStatus($"{(ownTrade ? "Canceled" : "Accepted")} trade ({tradeOffer})");
-                UpdateTraderInfo();
+                await UpdateTraderInfoAsync().ConfigureAwait(false);
             }
             else
             {
@@ -285,7 +275,7 @@ namespace BeanTraderClient.ViewModels
                 SetStatus("ERROR: Trade offer could not be created. Do you have enough beans?", Application.Current.FindResource("ErrorBrush") as Brush);
             }
 
-            UpdateTraderInfo();
+            await UpdateTraderInfoAsync().ConfigureAwait(false);
         }
 
         private void SetStatus(string message) => SetStatus(message, Application.Current.FindResource("IdealForegroundColorBrush") as Brush);
