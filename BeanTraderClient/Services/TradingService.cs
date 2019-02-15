@@ -33,7 +33,11 @@ namespace BeanTraderClient.Services
                     {
                         var newClient = ClientFactory.GetServiceClient();
                         await SetClientCredentialsAsync(newClient).ConfigureAwait(false);
+#if NETCORE
+                        await newClient.OpenAsync().ConfigureAwait(false);
+#else
                         newClient.Open();
+#endif // NETCORE
                         client = newClient;
                     }
                 }
