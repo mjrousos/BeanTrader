@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>    
+    <RootNamespace>BeanTraderClient</RootNamespace>
+    <AssemblyName>BeanTraderClient</AssemblyName>
+    <DefineConstants>NETCORE</DefineConstants>
+    <ApplicationIcon>BeanTrader.ico</ApplicationIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Page Remove="**\Default.Accent.xaml" />
+
+    <Resource Include="BeanTrader.ico" />
+    <Resource Include="**\*.png" />
+
+    <Content Include="Resources\Themes\Default.Accent.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Windsor">
+      <Version>4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro">
+      <Version>2.0.0-alpha0212</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Azure.Common">
+      <Version>2.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Azure.KeyVault">
+      <Version>2.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
+      <Version>2.6.3</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
+      <Version>4.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="Nito.AsyncEx">
+      <Version>5.0.0-pre-05</Version>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
