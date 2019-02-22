@@ -8,11 +8,12 @@
     <AssemblyName>BeanTraderClient</AssemblyName>
     <DefineConstants>NETCORE</DefineConstants>
     <ApplicationIcon>BeanTrader.ico</ApplicationIcon>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>    
   </PropertyGroup>
 
   <ItemGroup>
     <Page Remove="**\Default.Accent.xaml" />
+    <Compile Remove="out\BeanTraderClient\**\*.cs" />
 
     <Resource Include="BeanTrader.ico" />
     <Resource Include="**\*.png" />
@@ -43,9 +44,12 @@
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
       <Version>4.5.1</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
     <PackageReference Include="Nito.AsyncEx">
       <Version>5.0.0-pre-05</Version>
     </PackageReference>
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.5.3" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.5.3" />
   </ItemGroup>
 
 </Project>
