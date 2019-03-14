@@ -1,10 +1,5 @@
-﻿using BeanTrader;
-using BeanTrader.Models;
+﻿using BeanTrader.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeanTraderClient
 {

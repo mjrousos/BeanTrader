@@ -1,4 +1,5 @@
 ﻿using BeanTrader.Models;
+using BeanTrader.Service;
 using BeanTraderClient.ViewModels;
 using System;
 using System.Collections.Generic;

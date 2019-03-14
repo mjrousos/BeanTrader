@@ -1,4 +1,5 @@
 ﻿using BeanTrader.Models;
+using BeanTrader.Service;
 using BeanTraderClient.DependencyInjection;
 using Microsoft.Azure.KeyVault;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -33,7 +34,7 @@ namespace BeanTraderClient.Services
                     {
                         var newClient = ClientFactory.GetServiceClient();
                         await SetClientCredentialsAsync(newClient).ConfigureAwait(false);
-                        newClient.Open();
+                        await newClient.OpenAsync().ConfigureAwait(false);
                         client = newClient;
                     }
                 }

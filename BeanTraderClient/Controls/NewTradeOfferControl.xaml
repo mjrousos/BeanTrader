@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:resources="clr-namespace:BeanTraderClient.Resources"
              xmlns:models="clr-namespace:BeanTrader.Models"
+             xmlns:service="clr-namespace:BeanTrader.Service"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -14,25 +15,25 @@
                     <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 10 5 5">
                         <Image Source="{StaticResource RedBean}" Width="40" />
                     </Border>
-                    <TextBox Text="{Binding Path=[(models:Beans)Red]}" Width="60" FontSize="28" Margin="5 10 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
+                    <TextBox Text="{Binding Path=[(service:Beans)Red]}" Width="60" FontSize="28" Margin="5 10 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 5 5 5">
                         <Image Source="{StaticResource BlueBean}" Width="40" />
                     </Border>
-                    <TextBox Text="{Binding Path=[(models:Beans)Blue]}" Width="60" FontSize="28" Margin="5 5 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
+                    <TextBox Text="{Binding Path=[(service:Beans)Blue]}" Width="60" FontSize="28" Margin="5 5 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 5 5 5">
                         <Image Source="{StaticResource GreenBean}" Width="40" />
                     </Border>
-                    <TextBox Text="{Binding Path=[(models:Beans)Green]}" Width="60" FontSize="28" Margin="5 5 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
+                    <TextBox Text="{Binding Path=[(service:Beans)Green]}" Width="60" FontSize="28" Margin="5 5 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Border Background="{StaticResource ControlBackgroundBrush}" BorderBrush="{StaticResource ControlBorderBrush}" BorderThickness="1" Margin="10 5 5 5">
                         <Image Source="{StaticResource YellowBean}" Width="40" />
                     </Border>
-                    <TextBox Text="{Binding Path=[(models:Beans)Yellow]}" Width="60" FontSize="28" Margin="5 5 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
+                    <TextBox Text="{Binding Path=[(service:Beans)Yellow]}" Width="60" FontSize="28" Margin="5 5 10 5" TextAlignment="Right" GotFocus="BeanTextBox_GotFocus" PreviewMouseDown="IgnoreIfUnfocused"/>
                 </StackPanel>                
             </StackPanel>
         </DataTemplate>

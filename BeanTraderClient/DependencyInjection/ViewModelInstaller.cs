@@ -9,7 +9,7 @@ namespace BeanTraderClient.DependencyInjection
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Classes.FromThisAssembly()
+            container.Register(Classes.FromAssemblyContaining(typeof(ViewModelInstaller))
                 .Where(t => t.Name.EndsWith("ViewModel", StringComparison.Ordinal))
                 .LifestyleTransient());
         }

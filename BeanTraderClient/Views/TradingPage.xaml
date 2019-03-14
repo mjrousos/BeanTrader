@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:resources="clr-namespace:BeanTraderClient.Resources"
       xmlns:models="clr-namespace:BeanTrader.Models"
+      xmlns:service="clr-namespace:BeanTrader.Service"
       xmlns:localDesign="clr-namespace:BeanTraderClient.DesignTimeData"
       xmlns:controls="clr-namespace:BeanTraderClient.Controls"
       mc:Ignorable="d" 
@@ -17,7 +18,7 @@
       Loaded="Load"
       Unloaded="Unload">
     <Page.Resources>
-        <DataTemplate DataType="{x:Type models:TradeOffer}">
+        <DataTemplate DataType="{x:Type service:TradeOffer}">
             <controls:TradeOfferControl TradeOffer="{Binding}" TradingModel="{Binding ElementName=TradeOfferList, Path=DataContext}"/>
         </DataTemplate>
     </Page.Resources>

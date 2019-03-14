@@ -1,4 +1,5 @@
 ﻿using BeanTrader.Models;
+using BeanTrader.Service;
 using System;
 using System.Threading.Tasks;
 

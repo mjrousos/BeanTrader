@@ -10,7 +10,7 @@ namespace BeanTraderClient.DependencyInjection
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Classes.FromThisAssembly()
+            container.Register(Classes.FromAssemblyContaining(typeof(ViewInstaller))
                 .BasedOn<Window>()
                 .OrBasedOn(typeof(Page))
                 .LifestyleTransient());

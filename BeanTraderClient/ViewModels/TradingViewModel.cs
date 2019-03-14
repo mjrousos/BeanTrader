@@ -1,4 +1,5 @@
 ﻿using BeanTrader.Models;
+using BeanTrader.Service;
 using BeanTraderClient.Controls;
 using BeanTraderClient.Resources;
 using BeanTraderClient.Services;

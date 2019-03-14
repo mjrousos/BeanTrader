@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using BeanTrader.Service;
+using System.ServiceModel;
 
 namespace BeanTraderClient.DependencyInjection
 {
@@ -11,6 +12,6 @@ namespace BeanTraderClient.DependencyInjection
             CallbackHandler = callbackHandler;
         }
 
-        public BeanTraderServiceClient GetServiceClient() => new BeanTraderServiceClient(new InstanceContext(CallbackHandler));
+        public BeanTraderServiceClient GetServiceClient() => new BeanTraderServiceClient(new InstanceContext(CallbackHandler), BeanTraderServiceClientBase.EndpointConfiguration.NetTcpBinding_BeanTraderService);
     }
 }
