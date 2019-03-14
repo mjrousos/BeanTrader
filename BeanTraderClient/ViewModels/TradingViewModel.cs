@@ -174,11 +174,13 @@ namespace BeanTraderClient.ViewModels
             // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
             // how such calls can be ported to .NET Core.
             Func<Task<Trader>> userInfoRetriever = TradingService.GetCurrentTraderInfoAsync;
-            userInfoRetriever.BeginInvoke(result =>
-            {
-                var task = userInfoRetriever.EndInvoke(result).ConfigureAwait(false);
-                CurrentTrader = task.GetAwaiter().GetResult();
-            }, null);
+
+            Task.Run(() => userInfoRetriever.Invoke())
+                .ContinueWith(result =>
+                {
+                    var task = result.ConfigureAwait(false);
+                    CurrentTrader = task.GetAwaiter().GetResult();
+                }, TaskScheduler.Default);
         }
 
         private async Task LoadDataAsync()
