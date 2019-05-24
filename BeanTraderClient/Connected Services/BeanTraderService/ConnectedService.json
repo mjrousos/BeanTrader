@@ -1,9 +1,12 @@
 ﻿{
   "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
-  "Version": "15.0.30201.1201",
+  "Version": "15.0.30423.811",
+  "GettingStartedDocument": {
+    "Uri": "https://go.microsoft.com/fwlink/?linkid=858517"
+  },
   "ExtendedData": {
     "inputs": [
-      "http://beantrader.eastus.cloudapp.azure.com:8080/"
+      "http://beantrader.eastus.cloudapp.azure.com:8080"
     ],
     "collectionTypes": [
       "System.Array",

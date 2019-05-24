@@ -13,7 +13,7 @@ namespace BeanTrader.Models
 
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.0-preview-30131-0887")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     [System.Runtime.Serialization.DataContractAttribute(Name = "TradeOffer", Namespace = "http://schemas.datacontract.org/2004/07/BeanTrader.Models")]
     public partial class TradeOffer : object
     {
@@ -79,7 +79,7 @@ namespace BeanTrader.Models
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.0-preview-30131-0887")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     [System.Runtime.Serialization.DataContractAttribute(Name = "Beans", Namespace = "http://schemas.datacontract.org/2004/07/BeanTrader.Models")]
     public enum Beans : int
     {
@@ -98,7 +98,7 @@ namespace BeanTrader.Models
     }
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.0-preview-30131-0887")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     [System.Runtime.Serialization.DataContractAttribute(Name = "Trader", Namespace = "http://schemas.datacontract.org/2004/07/BeanTrader.Models")]
     public partial class Trader : object
     {
@@ -150,7 +150,7 @@ namespace BeanTrader.Models
     }
 }
 
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.0-preview-30131-0887")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
 [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BeanTraderService.BeanTraderService", CallbackContract=typeof(BeanTraderServiceCallback))]
 public interface BeanTraderService
 {
@@ -183,7 +183,7 @@ public interface BeanTraderService
     System.Threading.Tasks.Task StopListeningAsync();
 }
     
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.0-preview-30131-0887")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
 public interface BeanTraderServiceCallback
 {
         
@@ -197,13 +197,13 @@ public interface BeanTraderServiceCallback
     void TradeAccepted(BeanTrader.Models.TradeOffer offer, System.Guid buyerId);
 }
     
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.0-preview-30131-0887")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
 public interface BeanTraderServiceChannel : BeanTraderService, System.ServiceModel.IClientChannel
 {
 }
     
 [System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.0-preview-30131-0887")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
 public partial class BeanTraderServiceClientBase : System.ServiceModel.DuplexClientBase<BeanTraderService>, BeanTraderService
 {
         
@@ -217,7 +217,7 @@ public partial class BeanTraderServiceClientBase : System.ServiceModel.DuplexCli
     public BeanTraderServiceClientBase(System.ServiceModel.InstanceContext callbackInstance) : 
             base(callbackInstance, BeanTraderServiceClientBase.GetDefaultBinding(), BeanTraderServiceClientBase.GetDefaultEndpointAddress())
     {
-        this.Endpoint.Name = EndpointConfiguration.NetTcpBinding_BeanTraderService.ToString();
+        this.Endpoint.Name = EndpointConfiguration.CustomBinding_BeanTraderService.ToString();
         ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
     }
         
@@ -304,7 +304,7 @@ public partial class BeanTraderServiceClientBase : System.ServiceModel.DuplexCli
         
     private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
     {
-        if ((endpointConfiguration == EndpointConfiguration.NetTcpBinding_BeanTraderService))
+        if ((endpointConfiguration == EndpointConfiguration.CustomBinding_BeanTraderService))
         {
             System.ServiceModel.NetTcpBinding result = new System.ServiceModel.NetTcpBinding();
             result.MaxBufferSize = int.MaxValue;
@@ -318,27 +318,27 @@ public partial class BeanTraderServiceClientBase : System.ServiceModel.DuplexCli
         
     private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
     {
-        if ((endpointConfiguration == EndpointConfiguration.NetTcpBinding_BeanTraderService))
+        if ((endpointConfiguration == EndpointConfiguration.CustomBinding_BeanTraderService))
         {
-            return new System.ServiceModel.EndpointAddress(new System.Uri("net.tcp://localhost:8090/BeanTraderService"), new System.ServiceModel.DnsEndpointIdentity("BeanTrader"));
+            return new System.ServiceModel.EndpointAddress(new System.Uri("net.tcp://beantrader.eastus.cloudapp.azure.com:8090/BeanTraderService"), new System.ServiceModel.DnsEndpointIdentity("BeanTrader"));
         }
         throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
     }
         
     private static System.ServiceModel.Channels.Binding GetDefaultBinding()
     {
-        return BeanTraderServiceClientBase.GetBindingForEndpoint(EndpointConfiguration.NetTcpBinding_BeanTraderService);
+        return BeanTraderServiceClientBase.GetBindingForEndpoint(EndpointConfiguration.CustomBinding_BeanTraderService);
     }
         
     private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
     {
-        return BeanTraderServiceClientBase.GetEndpointAddress(EndpointConfiguration.NetTcpBinding_BeanTraderService);
+        return BeanTraderServiceClientBase.GetEndpointAddress(EndpointConfiguration.CustomBinding_BeanTraderService);
     }
         
     public enum EndpointConfiguration
     {
             
-        NetTcpBinding_BeanTraderService,
+        CustomBinding_BeanTraderService,
     }
 }
     
@@ -513,4 +513,3 @@ public partial class BeanTraderServiceClient : BeanTraderServiceClientBase
         }
     }
 }
-

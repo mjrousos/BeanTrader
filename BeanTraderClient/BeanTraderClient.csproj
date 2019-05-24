@@ -162,9 +162,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\StringResources.resx">

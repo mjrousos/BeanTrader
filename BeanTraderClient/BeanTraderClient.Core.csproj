@@ -53,7 +53,12 @@
       <Version>5.0.0-pre-05</Version>
     </PackageReference>
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.5.3" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.5.3" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 </Project>
