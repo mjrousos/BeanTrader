@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ServiceModel.Channels;
+
 namespace BeanTrader.Models
 {
     using System.Runtime.Serialization;
@@ -306,11 +308,26 @@ public partial class BeanTraderServiceClientBase : System.ServiceModel.DuplexCli
     {
         if ((endpointConfiguration == EndpointConfiguration.CustomBinding_BeanTraderService))
         {
+        /* 
+            // NetTcpBinding
             System.ServiceModel.NetTcpBinding result = new System.ServiceModel.NetTcpBinding();
             result.MaxBufferSize = int.MaxValue;
             result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
             result.MaxReceivedMessageSize = int.MaxValue;
             result.Security.Transport.ClientCredentialType = System.ServiceModel.TcpClientCredentialType.Certificate;
+        */
+            
+            // Custom binding with binary message encoding
+            var result = new CustomBinding(
+                    new BinaryMessageEncodingBindingElement { CompressionFormat = CompressionFormat.GZip },
+                    new SslStreamSecurityBindingElement(),
+                    new TcpTransportBindingElement
+                    {
+                        MaxBufferSize = int.MaxValue,
+                        MaxReceivedMessageSize = int.MaxValue,
+                    }
+                );
+
             return result;
         }
         throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
